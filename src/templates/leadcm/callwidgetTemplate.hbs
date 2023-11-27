@@ -1,0 +1,117 @@
+<callwidget class="widgetModal" aria-hidden="true">
+    <div class="widgetModal-inner {{# if logoUrl}}has-logo{{/if}}">
+        <button class="widgetModal-close js-closeModal" type="button" title="{{closeWindow}}">&times;</button>
+        {{# if logoUrl}}
+            <div class="widgetModal-logo">
+                <img src="{{logoUrl}}" alt=""/>
+            </div>
+        {{/if}}
+        {{# if avatarUrl}}
+            <div class="widgetModal-aside">
+                <div class="widgetModal-user">
+                    <img src="{{avatarUrl}}" class="widgetModal-userAvatar" alt="avatar"/>
+                    <div class="widgetModal-userName">{{userName}}</div>
+                    <div class="widgetModal-userRole">{{userPosition}}</div>
+                </div>
+            </div>
+        {{/if}}
+        <div class="widgetModal-main">
+            <div class="widgetModal-title">{{{title}}}</div>
+            <div class="widgetModal-subTitle">{{{subTitle}}}</div>
+            <div class="widgetModal-text">{{{text}}}</div>
+
+            <div class="widgetModal-chooseTime">
+                {{#if allowChoosingTime}}
+                    <button class="widgetModal-formButton" type="button"
+                            id="chooseTimeButton">{{chooseTimeButton}}</button>
+                {{/if}}
+
+                <div id="lc_future_calls" style="display: none">
+                    <div class="widgetModal-chooseTime-label widgetModal-labelPlaceholder">{{chooseTimeYouWillBeCalled}}</div>
+                    <div class="widgetModal-chooseTime-form">
+                        <div class="widgetModal-chooseTime-item -date">
+                            <div class="widgetModal-select">
+                                <select name="lc_fc_select_day"></select>
+                                <div class="widgetModal-selectDecor"></div>
+                            </div>
+                        </div>
+                        <div class="widgetModal-chooseTime-item -time">
+                            <div class="widgetModal-select">
+                                <select name="lc_fc_select_hour"></select>
+                                <div class="widgetModal-selectDecor"></div>
+                            </div>
+                            <span>:</span>
+                            <div class="widgetModal-select">
+                                <select name="lc_fc_select_minute"></select>
+                                <div class="widgetModal-selectDecor"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{# if departments }}
+                <div class="widgetModal-form -columns" id="lc_departments_select_form">
+                    {{# if chooseDepartment}}
+                        <label class="widgetModal-label widgetModal-labelPlaceholder">{{chooseDepartment}}</label>
+                    {{/if}}
+                    <div class="widgetModal-formGroup">
+                        {{#each departments}}
+                            <label class="widgetModal-formRadio">
+                                <input type="radio" name="leadcm_departments" value="{{id}}"
+                                       {{#ifEquals id ../defaultDepartmentId}}checked{{/ifEquals}}>
+                                <span>{{name}}</span>
+                            </label>
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="widgetModal-form" id="lc_phone_input_form">
+                <label class="widgetModal-label">
+                    <span class="widgetModal-labelPlaceholder" id="lc_enterPhoneLabel">
+                        {{enterYourPhone}}
+                        <span style="font-size: x-small">({{callIsFree}})</span>
+                    </span>
+
+                    <input tabindex="-1" class="widgetModal-field" id="widgetModal-field_modal" type="tel"
+                           placeholder="{{phoneNumberExample}}" required>
+                </label>
+                <img id="spinner" src="{{staticUrl}}/images/tenor.gif" alt=""
+                     style="
+                     width: 2.5rem;
+                     height: 2.5rem;
+                    display:none;
+                    margin-right: 1rem;
+">
+                <button class="widgetModal-formButton" id="lc_submit_button" type="submit">{{callMe}}</button>
+            </div>
+            <div
+                    id="lc_callIsFreeLabel"
+                    style="display:none; margin-top: 5px; margin-left: 3px;"
+                    class="widgetModal-labelPlaceholder">
+                {{callIsFree}}
+            </div>
+
+            {{# if useGDPR }}
+                <div
+                        id="lc_gdprLabel"
+                        style="margin-top: 7px; margin-left: 3px;"
+                        class="widgetModal-labelPlaceholder">
+                    <input type="checkbox" id="lb_eula-container--checkbox">&nbsp;{{gdprBeforeLinkText}} <a
+                        href="{{gdprLink}}"
+                        class="lb_eula--link"
+                        target="_blank"
+                        style="text-decoration: underline; color:#333;"
+                >{{gdprLinkText}}</a>.
+                </div>
+            {{/if}}
+            <a class="widgetModal-poweredBy"
+               target="_blank"
+               rel="noopener noreferrer nofollow"
+               href="{{ poweredUrl }}?utm_medium=link&utm_campaign={{ siteDomain }}&utm_source=original%20viral">
+            powered by <span style="color: #1c6bc9;">convolo</span>
+            </a>
+        </div>
+    </div>
+</callwidget>

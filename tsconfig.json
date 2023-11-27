@@ -1,0 +1,29 @@
+{
+  "comment": "WARNING: THIS FILE IS NOT USED, BUT WITHOUT IT IDE SHOWS ERRORS.",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "strictNullChecks": true,
+    "downlevelIteration": true,
+    "module": "es6",
+    "target": "es5",
+    "allowJs": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "lib": [
+      "es5",
+      "dom",
+      "scripthost",
+      "es2015"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@src/*": [
+        "src/*"
+      ]
+    }
+  }
+}

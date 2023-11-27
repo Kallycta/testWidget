@@ -1,0 +1,1 @@
+npm run build && echo. && echo Finished! Press any key! && notify.bat -tooltip info -text "Build complete!" && PAUSE >NUL || echo. && echo Failed! Press any key!  && call notify.bat -tooltip warning -text "Build failed!" && PAUSE >NUL 

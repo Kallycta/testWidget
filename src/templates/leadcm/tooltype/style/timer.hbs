@@ -1,0 +1,810 @@
+<style>
+    /* tooltip */
+    /* TODO CHECK DUPLICATE CLASSES*/
+
+    #lc_button_tooltip{
+        cursor: default !important;
+    }
+
+    .lc_button_tooltip.-has-form {
+        cursor: default !important;
+        box-shadow: 0px 4px 25px 0px #00000026;
+    }
+
+    #lc_button_tooltip-top-add-container {
+        width: fit-content;
+        margin-bottom: 10px;
+    }
+
+    .lc_button_tooltip--container {
+        font-family: {{{baseFontFamily}}};
+        bottom: 0 !important;
+        display: table !important;
+
+        position: absolute !important;
+
+        z-index: 501 !important;
+
+        width: {{tooltipWidth}};
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--left {
+        right: {{buttonSize}};
+        left: auto !important;
+        margin-right: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .lc_button_tooltip--container.lc_button_tooltip--left {
+            right: 40px;
+            width: 75vw;
+        }
+    }
+
+
+    .lc_button_tooltip--container.lc_button_tooltip--top {
+        right: {{buttonSize}};
+        left: auto !important;
+        margin-right: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .lc_button_tooltip--container.lc_button_tooltip--top {
+            right: 40px;
+            width: 75vw;
+        }
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--right {
+        right: -310px;
+        left: auto !important;
+    }
+
+    .lc_button_tooltip {
+        font-size: 13px !important;
+        line-height: normal !important;
+        height: auto !important;
+        padding: 0px !important;
+        opacity: 0 !important;
+        border-radius: {{tooltipBorderRadius}} !important;
+        /*
+            BORDER
+         box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15), 0 1px 2px 0 rgba(21, 28, 39, 0)
+            { {# if
+                tooltipBorderColor} }, 0 0 0 4px { {tooltipBorderColor} } { {/if} };
+        */
+
+        background: {{ defaultTooltipBg }} !important;
+        color: {{ defaultTooltipColor }} !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+    }
+
+    .lc_button_tooltip.lc_button_tooltip--show.lc_button_tooltip--alert {
+        opacity: 1 !important;
+        display: flex !important;
+        -webkit-animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+        animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+    }
+
+    .lc_button_tooltip.lc_button_tooltip--hide {
+        opacity: 0 !important;
+        display: none !important;
+        -webkit-animation: none;
+        animation: none;
+    }
+
+    #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--hide.lc_button_tooltip--hover {
+        opacity: .95 !important;
+        display: table !important;
+        transition: all 0.5s ease !important;
+    }
+
+    #lc_button-call:hover .lc_widgetTooltip-close {
+        display: none !important;
+    }
+
+    #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--alert {
+        opacity: 1 !important;
+        display: table !important;
+        -webkit-animation: none;
+        animation: none;
+    }
+
+    .lc_button_tooltip--text {
+        font-size: 13px !important;
+        font-weight: 400;
+        line-height: 1.4em !important;
+        display: block;
+    }
+
+    .lc_button_tooltip__avatar {
+        text-align: center;
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+        margin-right: 6px;
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        margin-left: -10px;
+    }
+
+    .lc_button_tooltip__userName {
+        margin-bottom: 1px;
+        font-weight: bold;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        line-height: 22px !important;
+        letter-spacing: 0em !important;
+        text-align: left !important;
+
+    }
+
+    .lc_button_tooltip__position {
+        margin-bottom: 5px;
+        font-weight: 400;
+        font-size: 13px;
+        color: #A5A5A5;
+        line-height: 17px;
+
+    }
+
+    .lc_widgetTooltip-close {
+        transition: all 1s !important;
+        font-weight: 300 !important;
+        position: absolute !important;
+        right: 18px !important;
+        top: 3px !important;
+        font-size: 29px !important;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .lc_widgetTooltip-close:hover{
+        color: {{ defaultActiveColor }};
+    }
+
+    .lc_button_tooltip::before,
+    .lc_button_tooltip::after {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        bottom: auto !important;
+        border-top-color: transparent !important;
+        border-bottom-color: transparent !important;
+        margin: 0 !important;
+        border-style: solid !important;
+        position: absolute !important;
+        z-index: 500 !important;
+        content: '' !important;
+        background: 0 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .lc_button_tooltip::before {
+        border-width: 8px !important;
+    }
+
+    .lc_button_tooltip::after {
+        border-width: 12px !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before,
+    .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+        left: auto !important;
+        border-right-color: transparent !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before {
+        right: -16px !important;
+        border-left-color: {{tooltipBorderColor}} !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+        right: -16px !important;
+        border-left-color: {{defaultTooltipBg}} !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--top .lc_button_tooltip::before,
+    .lc_button_tooltip--container.lc_button_tooltip--top .lc_button_tooltip::after {
+        left: auto !important;
+        border-right-color: transparent !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--top .lc_button_tooltip::before {
+        right: -16px !important;
+        border-left-color: transparent !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--top .lc_button_tooltip::after {
+        right: -16px !important;
+        border-left-color: transparent !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before,
+    .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+        right: auto !important;
+        border-left-color: transparent !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before {
+        left: -16px !important;
+        border-right-color: {{tooltipBorderColor}} !important;
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+        left: -16px !important;
+        border-right-color: {{defaultTooltipBg}}  !important;
+    }
+
+    .lc_button_tooltip.lc_button_tooltip--show {
+        opacity: 1 !important;
+        display: flex !important;
+    }
+
+    .lc_button_tooltip.lc_button_tooltip--show-animate {
+        -webkit-animation: lc-tooltip-animation 1000ms linear both;
+        animation: lc-tooltip-animation 1000ms linear both;
+    }
+
+    /* tooltip */
+    .lc_button_tooltip--container {
+        font-family: {{{baseFontFamily}}};
+        bottom: 0 !important;
+        display: table !important;
+        position: absolute !important;
+        z-index: 501 !important;
+        width: {{tooltipWidth}};
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--left {
+        right: {{buttonSize}};
+        left: auto !important;
+        margin-right: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .lc_button_tooltip--container.lc_button_tooltip--left {
+            right: 40px;
+            width: 75vw;
+        }
+    }
+
+    /* TODO CUSTOMIZE */
+    .lc_button_tooltip--container.lc_button_tooltip--top {
+        bottom: 80px !important;
+        right: 0px !important;
+        left: auto !important;
+        margin-right: 0px;
+    }
+
+    @media (max-width: 768px) {
+        .lc_button_tooltip--container.lc_button_tooltip--top {
+            right: 40px;
+            width: 75vw;
+        }
+    }
+
+    .lc_button_tooltip--container.lc_button_tooltip--right {
+        right: -310px;
+        left: auto !important;
+    }
+
+    .lc_button_tooltip {
+        font-size: 13px !important;
+        line-height: normal !important;
+        height: auto !important;
+        padding: 12px 20px;
+        opacity: 0 !important;
+        border-radius: {{tooltipBorderRadius}} !important;
+        /*
+        box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15), 0 1px 2px 0 rgba(21, 28, 39, 0)
+        { {# if
+                tooltipBorderColor} }, 0 0 0 4px { {tooltipBorderColor} } { {/if} };
+            */
+
+        background: {{ defaultTooltipBg }} !important;
+        color: {{ defaultTooltipColor }} !important;
+        box-sizing: border-box !important;
+    }
+
+    .lc_button_tooltip.-has-form {
+        flex-direction: column;
+    }
+
+    .lc_button_tooltip-inner {
+        display: flex;
+        padding: 10px 20px 10px 30px !important;
+    }
+
+    .widgetModal-form.-simple-form.-has-avatar {
+        /*TODO*/
+        /*padding: 0px 20px 10px 30px !important;*/
+
+    }
+
+
+    #widgetModal-section-phone-tooltype {
+        display: none;
+    }
+
+    #lc_widgetTooltip-timer-call {
+        display: none;
+    }
+
+    #lc_widgetTooltip-timer-rating {
+        display: none;
+        padding-top: 18px;
+        padding-bottom: 20px;
+        /*test*/
+        /*display: flex;*/
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-left: -20px;
+    }
+
+    #lc_widgetTooltip-timer-end {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #lc_widgetTooltip-timer-circle {
+        --deg: -1;
+        --col: hsla(213, 100%, 50%, 1);
+        min-height: 68px !important;
+        min-width: 68px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 50%;
+        text-align: center;
+        background-image: radial-gradient(#fff 31px, #f000 31px),
+        conic-gradient(var(--col) calc(var(--deg) * 1deg - 1deg),
+                transparent calc(var(--deg) * 1deg + 1deg)), radial-gradient(#fff3 40px, #4441 60px);
+        box-shadow: inset 0 0 10px -5px #000a;
+
+    }
+
+    .lc_widgetTooltip-timer-numbers {
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 26px;
+        text-align: center;
+        color: #0074FF !important;
+    }
+
+    .lc_widgetTooltip-timer-sec {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 12px;
+        text-align: center;
+        color: #0074FF !important;
+    }
+
+    .lc_widgetTooltip-timer-title {
+        width: 100%;
+        display: block;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        line-height: 22px !important;
+        color: #323D4C !important;
+    }
+
+    .lc_widgetTooltip-timer-desc {
+        margin-top: 4px;
+        margin-bottom: 24px;
+        width: 100%;
+        display: block;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        line-height: 18px !important;
+        color: #323D4C !important;
+
+    }
+
+    .lc_widgetTooltip-timer-desc span .important {
+        color: #0074FF;
+    }
+
+    .widgetModal-field {
+        border-radius: 8px !important;
+        min-height: 46px !important;
+    }
+
+    .iti {
+        width: 100% !important;
+    }
+
+    .widgetModal-formButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        min-height: 46px !important;
+        margin-top: 12px;
+        background-color: {{primaryColor}};
+        color: white;
+        border-radius: 8px !important;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19px;
+        letter-spacing: 0em;
+        text-align: center;
+        cursor: pointer !important;
+    }
+
+    .widgetModal-formCol:not(:first-child) {
+        margin-left: 0px;
+    }
+
+    .lc_button_tooltip-header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lc_widgetTooltip-timer-circle-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .lc_button_tooltip--text-default-result {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .lc_button_tooltip--text-we-call-you-later{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .lc_button_tooltip--text-unreachable{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .lc_widgetTooltip-timer-call-one {
+        margin-top: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: center;
+    }
+
+    .lc_widgetTooltip-timer-call-two {
+        margin-top: 7px;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 18px;
+        text-align: center;
+    }
+
+    .lc_widgetTooltip-timer-call-two span {
+        color: #0074FF;
+    }
+
+    .lc_widgetTooltip-timer-call-three {
+        margin-top: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 14px;
+        text-align: center;
+    }
+
+    #lc_widgetTooltip-timer-href-button {
+        margin-top: 14px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .lc_widgetTooltip-timer-rating-titles {
+        margin-bottom: 22px;
+    }
+
+    .lc_widgetTooltip-rating-description {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #AAAAAA;
+    }
+
+    .lc_widgetTooltip-rating-stars {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0px;
+        flex-wrap: wrap;
+    }
+
+    .lc_widgetTooltip-rating-stars:hover .lc_widgetTooltip-rating-star {
+        fill: #FDB435 !important;
+    }
+
+    .lc_widgetTooltip-rating-stars .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+        padding: 0px 10px;
+        width: 50px;
+    }
+
+    .lc_widgetTooltip-rating-stars .lc_widgetTooltip-rating-star:hover ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8 !important;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars] .lc_widgetTooltip-rating-star {
+        fill: #FDB435;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="0"] .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="1"] .lc_widgetTooltip-rating-star:nth-child(1) ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="2"] .lc_widgetTooltip-rating-star:nth-child(2) ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="3"] .lc_widgetTooltip-rating-star:nth-child(3) ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="4"] .lc_widgetTooltip-rating-star:nth-child(4) ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-stars[data-stars="5"] .lc_widgetTooltip-rating-star:nth-child(5) ~ .lc_widgetTooltip-rating-star {
+        fill: #d8d8d8;
+    }
+
+    .lc_widgetTooltip-rating-textarea-wrapper {
+        border: 1px solid #DFDFDF;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 10px 0px 5px;
+    }
+
+    .lc_widgetTooltip-rating-textarea {
+        resize: none;
+        border: none;
+        width: 100%;
+
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #858585;
+    }
+
+    .lc_widgetTooltip-rating-textarea:focus {
+        outline: none !important;
+        border: none;
+    }
+
+    .lc_widgetTooltip-rating-textarea::placeholder {
+        color: {{ratingTextAreaPlaceholderColor}};
+    }
+
+    .lc_widgetTooltip-rating-tags {
+        display: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .lc_widgetTooltip-rating-tag {
+        color: {{ratingTagButtonColor}};
+        background-color: {{ratingTagButtonBackgroundColor}};
+        padding: 5px;
+        margin-left: 4px;
+        margin-top: 4px;
+        border-radius: {{ratingTagButtonBorderRadius}};
+
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+
+        cursor: pointer;
+    }
+
+    .lc_widgetTooltip-rating-tag.active {
+        color: {{ratingActiveTagButtonColor}};
+        background-color: {{ratingActiveTagButtonBackgroundColor}};
+    }
+
+    .lc_widgetTooltip-rating-container[data-rating="1"] .lc_widgetTooltip-rating-tags[data-rating="1"] {
+        display: flex;
+    }
+
+    .lc_widgetTooltip-rating-container[data-rating="2"] .lc_widgetTooltip-rating-tags[data-rating="2"] {
+        display: flex;
+    }
+
+    .lc_widgetTooltip-rating-container[data-rating="3"] .lc_widgetTooltip-rating-tags[data-rating="3"] {
+        display: flex;
+    }
+
+    .lc_widgetTooltip-rating-container[data-rating="4"] .lc_widgetTooltip-rating-tags[data-rating="4"] {
+        display: flex;
+    }
+
+    .lc_widgetTooltip-rating-container[data-rating="5"] .lc_widgetTooltip-rating-tags[data-rating="5"] {
+        display: flex;
+    }
+
+    .lc_widgetTooltip-timer-rating-title-rating {
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        line-height: 24px !important;
+        text-align: center;
+        color: #0074FF;
+    }
+
+    .lc_widgetTooltip-timer-rating-title-desc {
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        line-height: 24px !important;
+        text-align: center;
+    }
+
+    .lc_widgetTooltip-timer-end-title {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        text-align: center;
+        color: #858585;
+    }
+
+    #lc_widgetTooltip-timer-end-button-goodbye {
+        margin-top: 20px;
+    }
+
+    .lc_widgetTooltip-text {
+        font-size: 14px !important;
+        font-weight: 300 !important;
+        line-height: 27px !important;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+
+    .lc_widgetTooltip-rating-stars svg {
+        cursor: pointer;
+    }
+
+    #lc_button_tooltip-top-add-container {
+        /*box-shadow: 0px 4px 25px 0px #00000026;*/
+    }
+
+    .lc_button_tooltip-inner-body{
+        width: 100%;
+        padding: 20px 20px 20px 30px !important;
+    }
+
+    #lc_widgetTooltip-timer-department{
+        display: none;
+        margin-left: -10px;
+    }
+
+    #widgetModal-section-phone-tooltype.-loading .lc_button_tooltip-inner-body {
+       display: none;
+    }
+
+    #widgetModal-section-phone-tooltype.-loading {
+        display: flex;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 50px;
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    /*#widgetModal-section-phone.-loading #spinner {*/
+    /*   display: block;*/
+    /*}*/
+
+    .widgetModal-chooseTime-item {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    #lc_widgetTooltip-timer-lead-unreachable{
+        display: none;
+        margin-left: -10px;
+    }
+
+    #lc_widgetTooltip-timer-lead-we-call-you-later{
+        display: none;
+        margin-left: -10px;
+    }
+
+    #lc_widgetTooltip-timer-default-result{
+        display: none;
+        margin-left: -10px;
+    }
+
+    #lc_widgetTooltip-timer-lead-we-call-you-later-button{
+        margin-top: 20px;
+    }
+
+    #lc_widgetTooltip-timer-lead-unreachable-button{
+        margin-top: 20px;
+    }
+
+    #lc_widgetTooltip-timer-default-result-button{
+        margin-top: 20px;
+    }
+
+    .widgetModal-formButton:hover {
+        box-shadow: inset 0 0 0px 20px rgba(255, 255, 255, 0.1)
+    }
+
+    .widgetModal-formButton {
+        margin: 0;
+        padding: 12px 12px 10px;
+        min-width: 96px;
+        min-height: 40px;
+        max-height: 40px;
+        height: 40px;
+        background-color: {{ primaryColor }};
+        border-radius: {{ elementBorderRadius }};
+        font-family: {{{baseFontFamily}}};
+        font-weight: 900;
+        font-size: 0.875em;
+        line-height: 1em;
+        text-align: center;
+        color: #FFFFFF;
+        border: none;
+        outline: none;
+        outline: unset;
+        transition: box-shadow 0.15s ease-in;
+    }
+
+    .widgetModal-formButton:hover {
+        box-shadow: inset 0 0 100px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .widgetModal-formButton:active {
+        box-shadow: inset 0 2px 2px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .widgetModal-formButton::-moz-focus-inner {
+        border: 0;
+    }
+
+    #lc_submit_button_tooltip{
+        margin-top: 20px;
+    }
+
+    #lc_button_tooltip{
+        padding-bottom: 40px !important;
+    }
+</style>

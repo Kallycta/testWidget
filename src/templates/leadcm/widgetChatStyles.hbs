@@ -1,0 +1,533 @@
+<style>
+    .lc_widget {
+        line-height: 16px;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #1e272e;
+    }
+
+    .lc_widget * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .widgetModal {
+        position: fixed;
+        opacity: 1;
+        right: 1vh;
+        bottom: 1vh;
+        z-index: 9999;
+
+        width: 300px;
+        border-radius: 3px;
+        box-shadow: 0 0 9px 0px rgba(72, 84, 96, 0.4);
+    }
+
+    .widgetModal[aria-hidden="true"] {
+        display: none;
+    }
+
+    .widgetModal-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        background-color: {{activeColor}};
+        border-radius: {{borderRadius}} {{borderRadius}} 0 0;
+    }
+
+    .widgetModal-headerTitle {
+        flex: 1;
+        padding: 0 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .widgetModal-inner {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 10px 0 20px;
+        width: 100%;
+        background-color: white;
+    }
+
+    .widgetModal-container {
+        display: flex;
+        padding: 0 10px 0;
+        height: 237px;
+        line-height: 20px;
+        font-size: 0.8em;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+    }
+
+    .widgetModal-aside {
+        margin-right: 10px;
+    }
+
+    .widgetModal-main {
+        position: relative;
+        margin: 0 0 -20px;
+        padding: 10px 10px 20px;
+        background: #f8f8f8;
+        box-shadow: 0 -2px 2px #0000001a;
+        font-size: 0.8em;
+    }
+
+    .widgetModal-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0 0 6px;
+        width: 40px;
+        height: 40px;
+        font-size: 34px;
+        line-height: 16px;
+        border: none;
+        font-weight: 300;
+        text-align: center;
+        color: #d9dde1;
+        background-color: transparent;
+        font-family: inherit;
+        outline: none;
+        text-decoration: none;
+        box-shadow: none;
+        text-shadow: none;
+        cursor: pointer;
+        opacity: 0.4;
+        transition: opacity 0.2s cubic-bezier(0.35, 0.78, 1, 1), color 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+    }
+
+    .widgetModal-close:hover {
+        color: #ef5777;
+    }
+
+    .widgetModal-close:hover,
+    .widgetModal-close:active,
+    .widgetModal-close:focus {
+        opacity: 1;
+    }
+
+    .widgetModal-logo {
+        text-align: center;
+    }
+
+    .widgetModal-logo > img {
+        max-width: 100%;
+        max-height: 80px;
+        width: {{logoWidth}};
+        height: {{logoHeight}};
+    }
+
+    .widgetModal-text {
+        margin-bottom: 7px;
+        background-color: #f5f5f5;
+        padding: 7px;
+        border-radius: 3px;
+    }
+
+    .widgetModal-text:first-of-type {
+        border-radius: 10px 10px 3px 3px;
+    }
+
+    .widgetModal-text:nth-child(3) {
+        border-radius: 3px 3px 10px 10px;
+    }
+
+    .widgetModal-text + .widgetModal-form {
+        margin-top: 20px;
+    }
+
+    .widgetModal-form {
+        display: flex;
+    }
+
+    .widgetModal-form.-columns {
+        flex-direction: column;
+    }
+
+    .widgetModal-main .widgetModal-form {
+        align-items: flex-end;
+    }
+
+    .widgetModal-label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .widgetModal-main .widgetModal-label {
+        flex: 1;
+        margin-bottom: 0;
+    }
+
+    .widgetModal-main .widgetModal-formButton {
+        width: 50px;
+        flex: 0 0 auto;
+        padding: 0;
+        background-color: transparent;
+        color: {{activeColor}};
+    }
+
+    .widgetModal-main .widgetModal-formButton > svg {
+        width: 1.6em;
+        height: 1.6em;
+    }
+
+    .widgetModal-labelPlaceholder {
+        margin-bottom: 5px;
+        display: block;
+        color: #808e9b;
+        font-weight: 300;
+    }
+
+    .widgetModal-field {
+        padding: 10px;
+        width: 100%;
+        height: 40px;
+        line-height: 24px;
+        font-size: 1em;
+        border: 2px solid #d2dae2;
+        border-radius: 3px;
+        outline: none;
+        transition: border-color 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+    }
+
+    .widgetModal-field:focus {
+        border-color: #575fcf;
+        box-shadow: 0px 2px 4px 0px rgba(72, 84, 96, 0.4);
+    }
+
+    .widgetModal-formButton {
+        margin: 0 0 1px;
+        padding: 10px 20px;
+        width: 100%;
+        height: 39px;
+        background-color: hsl(238, 55%, 51%);
+        color: #fff;
+        font-size: 16px;
+        font-family: inherit;
+        border: none;
+        border-radius: 3px;
+        outline: none;
+        transition: box-shadow 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+    }
+
+    .widgetModal-formButton:hover {
+        box-shadow: inset 0 0 0px 20px rgba(255, 255, 255, 0.1)
+    }
+
+    .widgetModal-formButton:focus-within {
+        box-shadow: inset 0 0 0px 20px rgba(255, 255, 255, 0.1), 0px 2px 4px 0px rgba(72, 84, 96, 0.4);
+    }
+
+    .widgetModal-formGroup {
+        margin-bottom: 20px;
+    }
+
+    .widgetModal-formRadio {
+        display: block;
+        position: relative;
+        padding: 4px 0;
+    }
+
+    .widgetModal-formRadio > input:checked,
+    .widgetModal-formRadio > input:not(:checked) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .widgetModal-formRadio > span {
+        position: relative;
+        display: inline-block;
+        padding-left: 25px;
+    }
+
+    .widgetModal-formRadio > span::before,
+    .widgetModal-formRadio > span::after {
+        content: "";
+        position: absolute;
+    }
+
+    .widgetModal-formRadio > span:before {
+        left: 0;
+        width: 16px;
+        height: 16px;
+        background: #fff;
+        border-radius: 100%;
+        border: 1px solid hsl({{secondaryColorHue}}, 18%, 75%);
+    }
+
+    .widgetModal-formRadio > input:checked + span:before,
+    .widgetModal-formRadio span:hover:before,
+    .widgetModal-formRadio > input:focus + span:before,
+    .widgetModal-formRadio:focus > span:before {
+        border-color: {{activeColor}};
+    }
+
+    .widgetModal-formRadio > input:checked + span:after {
+        top: 5px;
+        left: 5px;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        background-color: {{activeColor}};
+    }
+
+
+    .widgetModal-chooseTime {
+        margin-bottom: 15px;
+    }
+
+    .widgetModal-chooseTime-label {
+    }
+
+    .widgetModal-chooseTime-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .widgetModal-chooseTime-item + .widgetModal-chooseTime-item {
+        margin-top: 10px;
+    }
+
+    .widgetModal-chooseTime-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .widgetModal-chooseTime .widgetModal-formButton {
+        font-size: 1em;
+    }
+
+    .widgetModal-select {
+        display: inline-flex;
+        overflow: hidden;
+        position: relative;
+
+        height: 24px;
+        line-height: 16px;
+        font-size: 1em;
+        border-radius: {{borderRadius}};
+    }
+
+    .widgetModal-select > select {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0 10px;
+        line-height: 16px;
+        font-size: 1em;
+    }
+
+    .widgetModal-select > select:hover ~ .widgetModal-selectDecor,
+    .widgetModal-select > select:focus ~ .widgetModal-selectDecor,
+    .widgetModal-select > select:active ~ .widgetModal-selectDecor {
+        color: {{activeColor}};
+    }
+
+    .widgetModal-selectDecor {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        color: hsl({{secondaryColorHue}}, 22%, 85%);
+        border: 2px solid currentColor;
+        transition: border-color 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+    }
+
+    .widgetModal-selectDecor:after {
+        content: '▼';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 30px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: currentColor;
+        border-radius: 0 {{borderRadius}} {{borderRadius}} 0;
+    }
+
+    .widgetModal-chooseTime-item.-time > span {
+        display: inline-flex;
+        padding: 0 4px;
+        color: hsl({{secondaryColorHue}}, 18%, 75%);
+    }
+
+    .widgetModal-chooseTime-item.-date > .widgetModal-select,
+    .widgetModal-chooseTime-item.-date > .widgetModal-select > select {
+        width: 200px;
+    }
+
+    .widgetModal-chooseTime-item.-time > .widgetModal-select,
+    .widgetModal-chooseTime-item.-time > .widgetModal-select > select {
+        width: 66px;
+    }
+
+    .widgetModal-options {
+    }
+
+    .widgetModal-optionsTitle {
+        display: inline-block;
+        margin-bottom: 15px;
+        color: hsl({{secondaryColorHue}}, 18%, 75%);
+    }
+
+    .widgetModal-optionsTitle > span {
+        border-bottom: 1px dashed {{activeColor}};
+        color: {{activeColor}};
+        cursor: pointer;
+    }
+
+    .widgetModal-optionsContent[aria-hidden="true"] {
+        display: none;
+    }
+
+    .widgetModal-user {
+        text-align: center;
+    }
+
+    .widgetModal-userAvatar {
+        margin: 0 auto 10px;
+        width: {{avatarMobileWidth}};
+        height: auto;
+        border-radius: {{avatarBorderRadius}};
+        background: top center no-repeat;
+        background-size: cover;
+    }
+
+    .widgetModal-userName {
+        margin-bottom: 5px;
+        color: #808e9b;
+    }
+
+    .widgetModal-userRole {
+        text-transform: uppercase;
+        color: #b3beca;
+    }
+
+    .widgetModal-poweredBy {
+        position: absolute;
+        right: 20px;
+        bottom: 3px;
+        color: #777 !important;
+        background: -webkit-gradient(linear, left top, right top, color-stop(0, #777), color-stop(0.4, #777), color-stop(0.5, #fff), color-stop(0.6, #777), color-stop(1, #777));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: slidetounlock 40s infinite;
+        text-decoration: none;
+        text-align: left !important;
+        font-size: 9px !important;
+    }
+
+    .widgetModal-logoPowered {
+        height: 12px;
+        margin-bottom: -1px;
+        display: inline-block;
+    }
+
+    @-webkit-keyframes slidetounlock {
+        0% {
+            background-position: -720px 0;
+        }
+        100% {
+            background-position: 720px 0;
+        }
+    }
+
+    @keyframes slidetounlock {
+        0% {
+            background-position: -720px 0;
+        }
+        100% {
+            background-position: 720px 0;
+        }
+    }
+
+    /*in HBS font families need to put to three parenthesis because it cut quotes*/
+    .widgetModal {
+        font-size: {{baseFontSize}};
+        font-family: {{{baseFontFamily}}};
+        color: {{baseColor}};
+    }
+
+    .widgetModal-field:focus {
+        border-color: {{activeColor}};
+    }
+
+    .widgetModal-title {
+        font-family: {{{titleFontFamily}}};
+        color: hsl({{secondaryColorHue}}, 18%, 75%);
+    }
+
+    .widgetModal-subTitle {
+        color: {{activeColor}};
+        font-family: {{{subTitleFontFamily}}};
+    }
+
+    .widgetModal-userName {
+        color: hsl({{secondaryColorHue}}, 12%, 55%);
+    }
+
+    .widgetModal-userRole {
+        color: hsl({{secondaryColorHue}}, 18%, 75%);
+    }
+
+    .widgetModal-labelPlaceholder {
+        color: hsl({{secondaryColorHue}}, 18%, 45%);
+    }
+
+    .widgetModal-field {
+        border-color: hsl({{secondaryColorHue}}, 22%, 85%);
+    }
+
+    .widgetModal-formButton {
+        background-color: {{activeColor}};
+    }
+
+    .widgetModal-inner,
+    .widgetModal-field,
+    .widgetModal-formButton,
+    .widgetModal-selectDecor,
+    .widgetModal-select,
+    .widgetModal-select > select {
+        border-radius: {{borderRadius}};
+    }
+
+    .widgetModal-spinner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f8f8;
+        opacity: .9;
+        transition: opacity .2s;
+    }
+
+    .widgetModal-spinner > img {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+</style>

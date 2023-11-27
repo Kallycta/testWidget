@@ -1,0 +1,474 @@
+{{!-- Я заинлайнил все паршелы т.к. они иногда генерируют ошибки в браузере
+ {"ERROR_INIT": {"time": 1574987608, "data": {"err": "Error: The partial ./section-phone could not be compiled when running in runtime-only mode"}}}
+ --}}
+
+<callwidget class="widgetModal {{#if avatarUrl}}{{#if showAvatarInModal}}-portrait{{/if}}{{/if}}" aria-hidden="true">
+
+    {{#unless disableExternalCss}}
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap" rel="stylesheet">
+    {{/unless}}
+
+    {{!-- Иконка для лоадера --}}
+    <svg style="width: 0; height: 0; overflow: hidden; position: absolute; z-index: -1;"
+         xmlns="http://www.w3.org/2000/svg">
+        <symbol id="widgetModal-iconLoader" viewBox="0 0 38 38">
+            <g fill="none" fill-rule="evenodd">
+                <g transform="translate(1 1)" stroke-width="2">
+                    <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                    <path d="M36 18c0-9.94-8.06-18-18-18">
+                        <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="1s"
+                                repeatCount="indefinite"/>
+                    </path>
+                </g>
+            </g>
+        </symbol>
+    </svg>
+
+    <div class="widgetModal-inner">
+        <button class="widgetModal-close js-closeModal" type="button" title="{{closeWindow}}">&times;</button>
+        {{!-- background image --}}
+        <div class="widgetModal-bg"
+            {{#if imageBg}}
+             style="background-image: url({{imageBg}});background-repeat: no-repeat;background-size: cover;"
+            {{/if}}
+        >
+            {{#if imageBgWaveOn}}
+                <svg class="widgetModal-bgCover" viewBox="0 0 480 336" xmlns="http://www.w3.org/2000/svg">
+                    <clipPath id="widgetModal-bgCover">
+                        <path d="m0 0h481v261.935s-101.589-62.784-240.5 50.715c-81.169 66.32-240.5-27.308-240.5-50.715z"/>
+                    </clipPath>
+                </svg>
+            {{/if}}
+        </div>
+        {{!-- ./ background image --}}
+
+        <div class="widgetModal-container">
+            {{!-- header --}}
+            <div class="widgetModal-header {{#if avatarUrl}}{{#if showAvatarInModal}}has-avatar{{/if}}{{/if}}">
+                {{# if logoUrl}}<img class="widgetModal-logo" src="{{logoUrl}}" alt="logo"/>{{/if}}
+                <div class="widgetModal-headerInner">
+                    <div class="widgetModal-headerTitles">
+                        {{!--
+                          Нужна возможность иметь два размера текста .widgetModal-title
+                          Очень желательно учитывать переносы <br>
+                        --}}
+                        {{!--
+                          Вариант 1. Отображается с шаблонами
+                          - section-phone
+                          - select-time
+                          - section-select-departments
+                        --}}
+                        <div class="widgetModal-title">{{{title}}}</div>
+                        <div class="widgetModal-subTitle">{{{subTitle}}}</div>
+                        {{!--
+                          Вариант 2. Отображается с шаблонами
+                          - section-timer
+                          - section-message
+                        --}}
+                        {{!-- <div class="widgetModal-title -lg">Tack för att du beställde ett samtal</div> --}}
+                    </div>
+                    {{#if avatarUrl}}{{#if showAvatarInModal}}
+                        <div class="widgetModal-aside">
+                            <div class="widgetModal-user">
+                                <img src="{{avatarUrl}}" class="widgetModal-userAvatar" alt="avatar"/>
+                            </div>
+                            <div class="widgetModal-userName">
+                                <b>{{ userName }}</b> / {{userPosition}}
+                            </div>
+                        </div>
+                    {{/if}}{{/if}}
+                </div>
+            </div>
+            {{!-- ./ header --}}
+            <div class="widgetModal-main">
+                {{!-- section: phone input --}}
+                {{!--> ./section-phone --}}
+                {{!--
+  Для отображения процесса загрузки, необходимо добавить класс .-loading
+  Вот так: .widgetModal-section.-loading
+ --}}
+                <div class="widgetModal-section" id="widgetModal-section-phone">
+                    <div class="widgetModal-sectionInner {{#unless useGDPR}}-centered{{/unless}}">
+                        {{!-- section: loader --}}
+                        {{!--{{> ./loader }} --}}
+
+                        <div class="widgetModal-loader">
+                            <svg class="widgetModal-loaderIcon">
+                                <use xlink:href="#widgetModal-iconLoader"></use>
+                            </svg>
+                        </div>
+                        {{!-- ./ section: loader --}}
+                        <div class="widgetModal-form" id="lc_phone_input_form">
+                            <label class="widgetModal-label" for="widgetModal-field_modal">
+                                <svg class="widgetModal-labelIcon" viewBox="0 0 12 12"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.9744 9.29781C11.9404 9.19551 11.7245 9.04488 11.3266 8.84612C11.2189 8.78357 11.0653 8.69842 10.8666 8.59047C10.6677 8.48251 10.4872 8.38303 10.3254 8.29203C10.1633 8.20123 10.0113 8.11304 9.86937 8.028C9.84667 8.01095 9.77564 7.96126 9.65628 7.87883C9.53692 7.79651 9.43618 7.73542 9.35364 7.69556C9.27131 7.65581 9.19034 7.63594 9.11073 7.63594C8.99712 7.63594 8.85516 7.7169 8.68475 7.87883C8.51434 8.04076 8.35805 8.21681 8.21609 8.4073C8.07403 8.59768 7.92349 8.77374 7.76448 8.93567C7.60537 9.0977 7.4746 9.17856 7.3724 9.17856C7.32124 9.17856 7.25722 9.16434 7.18054 9.13609C7.10397 9.10774 7.0457 9.08337 7.00573 9.06371C6.96609 9.04373 6.89798 9.00408 6.80132 8.94425C6.70456 8.88462 6.65068 8.85188 6.63939 8.84612C5.86097 8.41431 5.19334 7.91994 4.63649 7.36323C4.07975 6.80641 3.58535 6.13881 3.15352 5.36044C3.14787 5.34904 3.11512 5.29506 3.0555 5.19851C2.99576 5.10185 2.95601 5.03375 2.93613 4.9939C2.91626 4.95415 2.89209 4.89588 2.86374 4.81921C2.83539 4.74253 2.82117 4.67861 2.82117 4.62746C2.82117 4.52526 2.90214 4.3945 3.06407 4.2354C3.22601 4.0764 3.40218 3.92576 3.59247 3.78381C3.78286 3.64186 3.95892 3.48558 4.12086 3.31518C4.2828 3.14467 4.36377 3.00272 4.36377 2.88912C4.36377 2.80962 4.34389 2.72855 4.30414 2.64622C4.26439 2.56369 4.20329 2.46295 4.12086 2.3436C4.03843 2.22424 3.98874 2.15332 3.97168 2.13051C3.88653 1.98856 3.79855 1.83657 3.70754 1.67464C3.61653 1.51271 3.51715 1.33226 3.40919 1.13341C3.30123 0.934656 3.21607 0.781199 3.15352 0.673245C2.95465 0.275637 2.80411 0.0596255 2.7018 0.0256285C2.66205 0.0085777 2.60232 0 2.52281 0C2.36935 0 2.16912 0.0283483 1.92192 0.085254C1.67473 0.142055 1.48015 0.201681 1.33809 0.264235C1.05396 0.383486 0.75289 0.730046 0.434661 1.30381C0.144887 1.83783 0 2.3663 0 2.88901C0 3.04226 0.0099381 3.19143 0.0298143 3.33641C0.0496905 3.48129 0.0852585 3.64469 0.136414 3.82649C0.187569 4.0083 0.228786 4.14334 0.25996 4.23132C0.291134 4.31929 0.349403 4.47693 0.434661 4.70424C0.519815 4.93155 0.57097 5.07068 0.588022 5.12183C0.786889 5.67865 1.02268 6.17574 1.29541 6.61331C1.74408 7.34053 2.35638 8.09202 3.13197 8.86757C3.90756 9.64312 4.65898 10.2554 5.38635 10.7042C5.82383 10.9768 6.32116 11.2127 6.8779 11.4117C6.92905 11.4286 7.06829 11.4798 7.29551 11.5652C7.52273 11.6503 7.68048 11.7086 7.76846 11.7398C7.85644 11.7711 7.99149 11.8123 8.1732 11.8635C8.35522 11.9146 8.51852 11.9502 8.66341 11.9702C8.8083 11.9899 8.95747 12 9.11083 12C9.63347 12 10.162 11.855 10.6961 11.5654C11.2698 11.2471 11.6164 10.946 11.7357 10.6618C11.7984 10.5199 11.8579 10.3253 11.9147 10.0781C11.9716 9.83099 12 9.63077 12 9.47732C12.0001 9.3975 11.9915 9.33788 11.9744 9.29781Z"/>
+                                </svg>
+                                <span class="widgetModal-labelPlaceholder" id="lc_enterPhoneLabel">
+                                    {{enterYourPhone}}
+                                    <span>({{callIsFree}})</span>
+                            </span>
+                            </label>
+                            <div class="widgetModal-formRow -phone">
+                                <div class="widgetModal-formCol">
+                                    <input tabindex="-1"
+                                           class="widgetModal-field"
+                                           id="widgetModal-field_modal"
+                                           {{#unless noTypeTelInPhoneInput}}type="tel"{{/unless}}
+                                           placeholder="{{phoneNumberExample}}"
+                                           required>
+                                </div>
+                                <div class="widgetModal-formCol -auto">
+                                    <button class="widgetModal-formButton" id="lc_submit_button"
+                                            type="submit">{{callMe}}</button>
+                                </div>
+                            </div>
+
+                            {{#if useGDPR}}
+                                <label class="widgetModal-checkbox">
+                                    <input type="checkbox" checked>
+                                    <span>{{gdprBeforeLinkText}} <a href="{{gdprLink}}"
+                                                                    target="_blank">{{gdprLinkText}}</a></span>
+                                </label>
+                            {{/if}}
+                            {{#unless useGDPR}}
+                                {{# ifNotEquals gdprLink ""}}
+                                    {{# ifNotEquals gdprLink "#"}}
+                                        <div class="widgetModal-gdpr">
+                            <span>{{gdprBeforeLinkText}} <a href="{{gdprLink}}"
+                                                            target="_blank">{{gdprLinkText}}</a></span>
+                                        </div>
+                                    {{/ifNotEquals}}
+                                {{/ifNotEquals}}
+                            {{/unless}}
+
+                        </div>
+                    </div>
+                    <div class="widgetModal-selectTime">
+                        {{!-- <a id="chooseTimeButton" class="widgetModal-selectTimeLink" href="#select-time">Välj vilken tid du vill bli uppringd</a> --}}
+                        {{#if allowChoosingTime}}
+                            <button class="widgetModal-selectTimeLink" type="button"
+                                    id="chooseTimeButton">{{chooseTimeButton}}</button>
+                        {{/if}}
+                    </div>
+                </div>
+                {{!-- ./ section: phone input --}}
+
+                {{!-- section: select time --}}
+                {{!--> ./section-select-time --}}
+
+                <div class="widgetModal-section" id="widgetModal-section-selectTime" aria-hidden="true"
+                     style="display: none;">
+                    <div class="widgetModal-sectionInner">
+                        {{!-- section: loader --}}
+                        {{!--{{> ./loader }} --}}
+
+                        <div class="widgetModal-loader">
+                            <svg class="widgetModal-loaderIcon">
+                                <use xlink:href="#widgetModal-iconLoader"></use>
+                            </svg>
+                        </div>
+                        {{!-- ./ section: loader --}}
+                        <div class="widgetModal-form" id="lc_future_calls">
+                            <label class="widgetModal-label" for="widgetModal-field_modal">
+                                <svg class="widgetModal-labelIcon" viewBox="0 0 12 14"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.708 2.15906C11.5261 1.97563 11.3102 1.88392 11.0611 1.88392H10.1409V1.18878C10.1409 0.870271 10.0283 0.59753 9.803 0.370645C9.57765 0.14376 9.30703 0.0302734 8.99062 0.0302734H8.53065C8.21424 0.0302734 7.94353 0.14376 7.71827 0.370645C7.49292 0.59753 7.38033 0.870271 7.38033 1.18878V1.88392H4.61989V1.18878C4.61989 0.870271 4.50721 0.59753 4.28195 0.370645C4.05668 0.14376 3.78589 0.0302734 3.46956 0.0302734H3.00951C2.69318 0.0302734 2.42239 0.14376 2.19712 0.370645C1.97186 0.59753 1.85918 0.870271 1.85918 1.18878V1.88392H0.939065C0.689801 1.88392 0.474154 1.97563 0.292036 2.15906C0.109919 2.34249 0.0188599 2.55978 0.0188599 2.81074V12.0787C0.0188599 12.3296 0.109919 12.5468 0.292036 12.7303C0.474154 12.9137 0.689801 13.0055 0.939065 13.0055H11.0609C11.3101 13.0055 11.5259 12.9137 11.7078 12.7303C11.8899 12.5469 11.981 12.3296 11.981 12.0787V2.81074C11.981 2.55969 11.89 2.34249 11.708 2.15906ZM3.00942 12.0786H0.939065V9.9933H3.00942V12.0786ZM3.00942 9.52993H0.939065V7.21309H3.00942V9.52993ZM3.00942 6.74955H0.939065V4.6643H3.00942V6.74955ZM2.84777 3.43701C2.80224 3.39115 2.77948 3.33694 2.77948 3.27411V1.18887C2.77948 1.12613 2.80224 1.07183 2.84777 1.02597C2.8933 0.980115 2.94712 0.957186 3.00951 0.957186H3.46956C3.53186 0.957186 3.58577 0.980115 3.6313 1.02597C3.67683 1.07183 3.69959 1.12613 3.69959 1.18887V3.27411C3.69959 3.33694 3.67674 3.39115 3.6313 3.43701C3.58577 3.48287 3.53195 3.5058 3.46956 3.5058H3.00951C2.94721 3.5058 2.8933 3.48287 2.84777 3.43701ZM5.76995 12.0786H3.46948V9.9933H5.76995V12.0786ZM5.76995 9.52993H3.46948V7.21309H5.76995V9.52993ZM5.76995 6.74955H3.46948V4.6643H5.76995V6.74955ZM8.53056 12.0786H6.23009V9.9933H8.53056V12.0786ZM8.53056 9.52993H6.23009V7.21309H8.53056V9.52993ZM8.53056 6.74955H6.23009V4.6643H8.53056V6.74955ZM8.36874 3.43701C8.3233 3.39115 8.30062 3.33694 8.30062 3.27411V1.18887C8.30062 1.12613 8.3233 1.07183 8.36874 1.02597C8.41427 0.980115 8.46818 0.957186 8.53056 0.957186H8.99053C9.05292 0.957186 9.10683 0.980115 9.15236 1.02597C9.19789 1.07183 9.22056 1.12613 9.22056 1.18887V3.27411C9.22056 3.33694 9.1978 3.39115 9.15236 3.43701C9.10692 3.48287 9.05292 3.5058 8.99053 3.5058H8.53056C8.46818 3.5058 8.41418 3.48287 8.36874 3.43701ZM11.0609 12.0786H8.99044V9.9933H11.0609V12.0786ZM11.0609 9.52993H8.99044V7.21309H11.0609V9.52993ZM11.0609 6.74955H8.99044V4.6643H11.0609V6.74955Z"/>
+                                </svg>
+                                <span class="widgetModal-labelPlaceholder">{{chooseTimeYouWillBeCalled}}</span>
+                            </label>
+                            <div class="widgetModal-chooseTime-form">
+                                <div class="widgetModal-chooseTime-item -date">
+                                    <div class="widgetModal-select">
+                                        <select name="lc_fc_select_day"></select>
+                                        <div class="widgetModal-selectDecor"></div>
+                                    </div>
+                                </div>
+                                <div class="widgetModal-chooseTime-item -time">
+                                    <div class="widgetModal-select">
+                                        <select name="lc_fc_select_hour"></select>
+                                        <div class="widgetModal-selectDecor"></div>
+                                    </div>
+                                    <span>:</span>
+                                    <div class="widgetModal-select">
+                                        <select name="lc_fc_select_minute"></select>
+                                        <div class="widgetModal-selectDecor"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widgetModal-formButtonContainer">
+                                <button class="widgetModal-formButton" id="widgetModal-formButton-confirmTime"
+                                        type="submit">
+                                    {{selectDepartmentButton}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- ./ section: select time --}}
+
+                {{!-- section: select departments --}}
+                {{!--> ./section-select-departments --}}
+
+                <div class="widgetModal-section" id="widgetModal-section-department" aria-hidden="true"
+                     style="display: none;">
+                    <div class="widgetModal-sectionInner">
+                        {{!-- section: loader --}}
+                        {{!--{{> ./loader }} --}}
+
+                        <div class="widgetModal-loader">
+                            <svg class="widgetModal-loaderIcon">
+                                <use xlink:href="#widgetModal-iconLoader"></use>
+                            </svg>
+                        </div>
+                        {{!-- ./ section: loader --}}
+                        <div class="widgetModal-form -columns">
+                            <label class="widgetModal-label" for="widgetModal-field_modal">
+                                <svg class="widgetModal-labelIcon" viewBox="0 0 12 12"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.1192 3.00892C10.5864 2.09597 9.86352 1.37311 8.95057 0.840254C8.03743 0.307397 7.04057 0.0410156 5.95933 0.0410156C4.87819 0.0410156 3.88105 0.307397 2.9681 0.840254C2.05505 1.37302 1.33219 2.09587 0.799333 3.00892C0.266381 3.92197 0 4.91911 0 6.00016C0 7.0813 0.266476 8.07825 0.799238 8.9914C1.3321 9.90425 2.05495 10.6272 2.968 11.1601C3.88105 11.6929 4.8781 11.9593 5.95924 11.9593C7.04038 11.9593 8.03752 11.6929 8.95048 11.1601C9.86343 10.6273 10.5863 9.90435 11.1191 8.9914C11.6519 8.07835 11.9183 7.08121 11.9183 6.00016C11.9183 4.91902 11.6519 3.92187 11.1192 3.00892ZM4.96609 1.53073C4.96609 1.45825 4.98933 1.39883 5.0359 1.35225C5.08248 1.30578 5.142 1.28244 5.21438 1.28244H6.70429C6.77667 1.28244 6.83619 1.30578 6.88257 1.35225C6.92905 1.39883 6.95248 1.45825 6.95248 1.53073V2.77225C6.95248 2.84463 6.92905 2.90416 6.88257 2.95063C6.83619 2.99721 6.77667 3.02044 6.70429 3.02044H5.21438C5.142 3.02044 5.08248 2.99721 5.0359 2.95063C4.98933 2.90416 4.96609 2.84463 4.96609 2.77225V1.53073ZM7.94562 9.72464C7.94562 9.79702 7.92219 9.85654 7.87581 9.90292C7.82943 9.94949 7.7699 9.97273 7.69733 9.97273H4.22114C4.14867 9.97273 4.08924 9.94949 4.04267 9.90292C3.9961 9.85644 3.97286 9.79692 3.97286 9.72454V8.48302C3.97286 8.41044 3.9961 8.35111 4.04267 8.30454C4.08924 8.25806 4.14876 8.23473 4.22114 8.23473H4.96609V5.75178H4.22114C4.14867 5.75178 4.08924 5.72854 4.04267 5.68197C3.9961 5.63549 3.97286 5.57597 3.97286 5.50349V4.26206C3.97286 4.18959 3.9961 4.13016 4.04267 4.08359C4.08924 4.03702 4.14876 4.01378 4.22114 4.01378H6.70429C6.77667 4.01378 6.83619 4.03702 6.88257 4.08359C6.92905 4.13016 6.95248 4.18959 6.95248 4.26206V8.23483H7.69724C7.76971 8.23483 7.82924 8.25816 7.87571 8.30464C7.9221 8.35111 7.94552 8.41063 7.94552 8.48311V9.72464H7.94562Z"/>
+                                </svg>
+                                <span class="widgetModal-labelPlaceholder"
+                                      id="widgetModal-labelPlaceholder-Departments">
+                                    {{chooseDepartment}}
+                                </span>
+                            </label>
+
+                            {{#if departmentsDropdownSelector}}
+                                <div class="widgetModal-chooseTime-item -date" style="width: 100%!important">
+                                    <div class="widgetModal-select" style="width: 100%!important">
+                                        <select
+                                                id="leadcm_departments_select"
+                                                style="width: 100%!important">
+                                            {{#each departments}}
+                                                <option
+                                                        value="{{id}}"
+                                                        {{#ifEquals id ../defaultDepartmentId}}selected{{/ifEquals}}>
+                                                    {{name}}
+                                                </option>
+                                            {{/each}}
+                                        </select>
+                                        <div class="widgetModal-selectDecor"></div>
+                                    </div>
+                                </div>
+                            {{/if}}
+                            {{#unless departmentsDropdownSelector}}
+                                <div class="widgetModal-formDepartments" id="widgetModal-formDepartments-Div">
+                                    {{#each departments}}
+                                        <div>
+                                            <label class="widgetModal-radio">
+                                                <input
+                                                        type="radio"
+                                                        name="leadcm_departments"
+                                                        value="{{id}}"
+                                                        {{#ifEquals id ../defaultDepartmentId}}checked{{/ifEquals}}>
+                                                <span>{{name}}</span>
+                                            </label>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            {{/unless}}
+
+                            <!--            </div>-->
+                            <div class="widgetModal-formButtonContainer"
+                                 id="widgetModal-Departments-formButtonContainer">
+                                <button class="widgetModal-formButton" type="submit"
+                                        id="widgetModal-formButton-confirmDepartment">
+                                    {{selectDepartmentButton}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{!-- ./ section: select departments --}}
+
+                {{!-- section: timer --}}
+                {{!--> ./section-timer --}}
+                <div class="widgetModal-section" id="widgetModal-section-timer"
+                     aria-hidden="true"
+                     style="display: none;"
+                >
+
+                    <div class="widgetModal-sectionInner" {{#unless useTimer}}style="display: none"{{/unless}}>
+                        {{!-- section: loader --}}
+                        {{!--{{> ./loader }} --}}
+
+                        <div class="widgetModal-loader">
+                            <svg class="widgetModal-loaderIcon">
+                                <use xlink:href="#widgetModal-iconLoader"></use>
+                            </svg>
+                        </div>
+                        {{!-- ./ section: loader --}}
+                        <div class="widgetModal-timer">
+                            <div class="widgetModal-timerLabel" id="widgetModal-timerLabel">{{callingTo}}</div>
+
+                            <div class="widgetModal-counter">
+                                <div class="widgetModal-counterItem">
+                                    <div
+                                            class="widgetModal-counterNumber"
+                                            id="widgetModal-counterNumber-min"
+                                    >00
+                                    </div>
+                                    <div class="widgetModal-counterLabel">min</div>
+                                </div>
+                                <div class="widgetModal-counterItem">
+                                    <div
+                                            class="widgetModal-counterNumber"
+                                            id="widgetModal-counterNumber-sec"
+                                    >
+                                        00
+                                    </div>
+                                    <div class="widgetModal-counterLabel">sec</div>
+                                </div>
+                                <div class="widgetModal-counterItem"
+                                     {{#unless useTimerMilliseconds}}style="display: none"{{/unless}}>
+                                    <div class="widgetModal-counterNumber"
+                                         id="widgetModal-counterNumber-msec"
+                                    >
+                                        00
+                                    </div>
+                                    <div class="widgetModal-counterLabel">ms</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {{!-- ./ section: timer --}}
+
+                {{!-- section: message --}}
+                {{!--> ./section-message --}}
+                <div class="widgetModal-section" id="widgetModal-section-message" aria-hidden="true"
+                     style="display: none;">
+                    <div class="widgetModal-sectionInner">
+                        {{!-- section: loader --}}
+                        {{!--{{> ./loader }} --}}
+
+                        <div class="widgetModal-loader">
+                            <svg class="widgetModal-loaderIcon">
+                                <use xlink:href="#widgetModal-iconLoader"></use>
+                            </svg>
+                        </div>
+                        {{!-- ./ section: loader --}}
+                        <div class="widgetModal-message" id="widgetModal-message">
+                            Tack för din förfrågan! Vi hinner tyvärr inte kontakta dig inom utsatt tid, men hör av oss
+                            så fort vi kan.
+                        </div>
+
+                        <div class="widgetModal-form-message" id="widgetModal-form-message"></div>
+
+                        <div class="widgetModal-sub-message" id="widgetModal-sub-message">
+                        </div>
+
+                        <div class="widgetModal-rating-container" id="widgetModal-rating" style="display: none;"
+                             data-rating="0">
+                            <div id="widgetModal-rating-description" class="widgetModal-rating-description"></div>
+                            <div class="widgetModal-rating-stars" id="widgetModal-rating-stars" data-stars="0">
+                                <svg width="39" height="37" viewBox="0 0 39 37" class="widgetModal-rating-star"
+                                     data-rating="1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.9068 1.39058C18.3558 0.00861073 20.3109 0.00860977 20.76 1.39058L24.1604 11.8561C24.3612 12.4742 24.9372 12.8926 25.587 12.8926H36.5911C38.0442 12.8926 38.6484 14.752 37.4728 15.6061L28.5703 22.0742C28.0446 22.4562 27.8246 23.1332 28.0254 23.7513L31.4258 34.2168C31.8749 35.5988 30.2932 36.748 29.1176 35.8939L20.2151 29.4258C19.6893 29.0438 18.9774 29.0438 18.4517 29.4258L9.54916 35.8939C8.37359 36.748 6.79187 35.5988 7.2409 34.2168L10.6414 23.7513C10.8422 23.1332 10.6222 22.4562 10.0965 22.0742L1.19392 15.6061C0.0183523 14.752 0.622514 12.8926 2.0756 12.8926H13.0797C13.7296 12.8926 14.3055 12.4742 14.5063 11.8561L17.9068 1.39058Z"/>
+                                </svg>
+                                <svg width="39" height="37" viewBox="0 0 39 37" class="widgetModal-rating-star"
+                                     data-rating="2" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.9068 1.39058C18.3558 0.00861073 20.3109 0.00860977 20.76 1.39058L24.1604 11.8561C24.3612 12.4742 24.9372 12.8926 25.587 12.8926H36.5911C38.0442 12.8926 38.6484 14.752 37.4728 15.6061L28.5703 22.0742C28.0446 22.4562 27.8246 23.1332 28.0254 23.7513L31.4258 34.2168C31.8749 35.5988 30.2932 36.748 29.1176 35.8939L20.2151 29.4258C19.6893 29.0438 18.9774 29.0438 18.4517 29.4258L9.54916 35.8939C8.37359 36.748 6.79187 35.5988 7.2409 34.2168L10.6414 23.7513C10.8422 23.1332 10.6222 22.4562 10.0965 22.0742L1.19392 15.6061C0.0183523 14.752 0.622514 12.8926 2.0756 12.8926H13.0797C13.7296 12.8926 14.3055 12.4742 14.5063 11.8561L17.9068 1.39058Z"/>
+                                </svg>
+                                <svg width="39" height="37" viewBox="0 0 39 37" class="widgetModal-rating-star"
+                                     data-rating="3" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.9068 1.39058C18.3558 0.00861073 20.3109 0.00860977 20.76 1.39058L24.1604 11.8561C24.3612 12.4742 24.9372 12.8926 25.587 12.8926H36.5911C38.0442 12.8926 38.6484 14.752 37.4728 15.6061L28.5703 22.0742C28.0446 22.4562 27.8246 23.1332 28.0254 23.7513L31.4258 34.2168C31.8749 35.5988 30.2932 36.748 29.1176 35.8939L20.2151 29.4258C19.6893 29.0438 18.9774 29.0438 18.4517 29.4258L9.54916 35.8939C8.37359 36.748 6.79187 35.5988 7.2409 34.2168L10.6414 23.7513C10.8422 23.1332 10.6222 22.4562 10.0965 22.0742L1.19392 15.6061C0.0183523 14.752 0.622514 12.8926 2.0756 12.8926H13.0797C13.7296 12.8926 14.3055 12.4742 14.5063 11.8561L17.9068 1.39058Z"/>
+                                </svg>
+                                <svg width="39" height="37" viewBox="0 0 39 37" class="widgetModal-rating-star"
+                                     data-rating="4" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.9068 1.39058C18.3558 0.00861073 20.3109 0.00860977 20.76 1.39058L24.1604 11.8561C24.3612 12.4742 24.9372 12.8926 25.587 12.8926H36.5911C38.0442 12.8926 38.6484 14.752 37.4728 15.6061L28.5703 22.0742C28.0446 22.4562 27.8246 23.1332 28.0254 23.7513L31.4258 34.2168C31.8749 35.5988 30.2932 36.748 29.1176 35.8939L20.2151 29.4258C19.6893 29.0438 18.9774 29.0438 18.4517 29.4258L9.54916 35.8939C8.37359 36.748 6.79187 35.5988 7.2409 34.2168L10.6414 23.7513C10.8422 23.1332 10.6222 22.4562 10.0965 22.0742L1.19392 15.6061C0.0183523 14.752 0.622514 12.8926 2.0756 12.8926H13.0797C13.7296 12.8926 14.3055 12.4742 14.5063 11.8561L17.9068 1.39058Z"/>
+                                </svg>
+                                <svg width="39" height="37" viewBox="0 0 39 37" class="widgetModal-rating-star"
+                                     data-rating="5" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.9068 1.39058C18.3558 0.00861073 20.3109 0.00860977 20.76 1.39058L24.1604 11.8561C24.3612 12.4742 24.9372 12.8926 25.587 12.8926H36.5911C38.0442 12.8926 38.6484 14.752 37.4728 15.6061L28.5703 22.0742C28.0446 22.4562 27.8246 23.1332 28.0254 23.7513L31.4258 34.2168C31.8749 35.5988 30.2932 36.748 29.1176 35.8939L20.2151 29.4258C19.6893 29.0438 18.9774 29.0438 18.4517 29.4258L9.54916 35.8939C8.37359 36.748 6.79187 35.5988 7.2409 34.2168L10.6414 23.7513C10.8422 23.1332 10.6222 22.4562 10.0965 22.0742L1.19392 15.6061C0.0183523 14.752 0.622514 12.8926 2.0756 12.8926H13.0797C13.7296 12.8926 14.3055 12.4742 14.5063 11.8561L17.9068 1.39058Z"/>
+                                </svg>
+                            </div>
+                            <div class="widgetModal-rating-textarea-wrapper">
+                                <textarea class="widgetModal-rating-textarea"
+                                          id="widgetModal-rating-textarea"></textarea>
+                            </div>
+                            <div class="widgetModal-rating-tags" id="widgetModal-rating-tags"></div>
+                        </div>
+
+                        <div class="widgetModal-step-form-container" id="widgetModal-step-form-container"
+                             style="display: none;">
+                            <div class="widgetModal-step">
+                          <p class="widgetModal-step-title"></p>
+                          <input type="text" id="widgetModal-step-input">
+                          <div class="widgetModal-step-buttons-container">
+                            <div class="widgetModal-step-buttons-left">
+                              <button class="widgetModal-step-ok-button" id="widgetModal-step-ok-button"></button>
+                              <div class="widgetModal-step-buttons-text" id="widgetModal-step-buttons-text">
+                                <div class="widgetModal-step-buttons-text-enter" id="widgetModal-step-buttons-text-enter">
+                                </div>
+                                <div class="widgetModal-step-buttons-text-enter-bold" id="widgetModal-step-buttons-text-enter-bold">
+                                </div>
+                                <svg id="widgetModal-step-enter-svg" width="10" height="11" viewBox="0 0 10 11"
+                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M9 0.5V7.5H1M1 7.5L4 10.5M1 7.5L4 4.5"/>
+                                </svg>
+                              </div>
+                            </div>
+                            <div class="widgetModal-step-press-container" id="widgetModal-step-press-container">
+                              <div class="widgetModal-step-button-root-container left"
+                                   id="widgetModal-step-prev-button-container">
+                                <svg class="widgetModal-step-prev-svg" width="7" height="11" viewBox="0 0 7 11"
+                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M6 9.16667L1.91667 5.08333L6 1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="widgetModal-step-button-root-container right" id="widgetModal-step-next-button-container">
+                                                <svg class="widgetModal-step-next-svg" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6 9.16667L1.91667 5.08333L6 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                </div>
+                              </div>
+                        </div>
+
+                        <div class="widgetModal-formButtonContainer">
+                            <button class="widgetModal-formButton" type="button"
+                                    id="widgetModal-formButton-close">{{closeWindow}}</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {{#if poweredIsShow}}<div class="widgetModal-footer">
+                <a class="widgetModal-poweredBy"
+                   {{#if poweredUrl}}target="_blank"{{/if}}
+                    rel="noopener noreferrer nofollow"
+                    {{#if poweredUrl}}href="{{ poweredUrl }}?utm_medium=link&utm_campaign={{ siteDomain }}&utm_source=original%20viral
+                    "{{/if}}
+                    {{#unless poweredUrl}}href="#"{{/unless}}
+                    >
+                        <span class="widgetModal-poweredBy-link"> {{poweredByText}} </span>
+                        <span style="font-weight: bold; font-style: oblique; font-size: 1.1em;">
+                            {{#if customPoweredIcon}}
+                                <span class="widgetModal-poweredBy img" style="background-image: url({{customPoweredIcon}})"></span>
+                            {{/if}}
+                            {{#unless customPoweredIcon}}
+                                <svg fill="{{poweredSvgFill}}" height="{{poweredSvgHeight}}" width="{{poweredSvgWidth}}" viewBox="0 0 67 13" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M52.2446 0.8372C52.1132 0.919084 52.0881 2.00835 52.1184 6.31699C52.1543 11.3986 52.1699 11.7166 52.4032 12.0952C52.539 12.3155 52.8316 12.5803 53.0533 12.6836C53.4681 12.8767 54.5706 12.9275 55.4065 12.7919C55.8742 12.7161 55.8799 12.7083 55.8781 12.1429C55.8753 11.1935 55.7837 11.0132 55.3043 11.0132C54.495 11.0132 54.4914 10.9917 54.4914 5.98227C54.4914 1.89983 54.4719 1.47827 54.2705 1.23436C53.9475 0.843023 52.6454 0.587832 52.2446 0.8372ZM2.80271 4.56348C1.8424 4.7929 0.920834 5.59403 0.442193 6.61554C0.18924 7.15552 -0.00470944 7.42558 8.7066e-05 8.72148C0.00463113 9.92694 0.212465 10.3282 0.423764 10.8438C0.807106 11.7788 1.29168 12.3292 2.05369 12.695C2.66071 12.9865 2.84613 13.0156 3.83976 12.9749C4.99055 12.9278 5.93496 12.613 6.6437 12.0403L6.95043 11.7924L6.6023 11.2095C6.41082 10.8887 6.18172 10.5991 6.09324 10.5658C6.00488 10.5325 5.66004 10.6474 5.32706 10.8212C4.91292 11.0373 4.52415 11.1371 4.09675 11.1371C3.56699 11.1371 3.41881 11.0812 3.12243 10.7699C2.69668 10.3226 2.61337 9.94887 2.61362 8.48921C2.61375 7.6612 2.67282 7.24286 2.83452 6.92536C3.10867 6.38673 3.60019 6.13241 4.04563 6.29865C4.45283 6.45053 4.6457 6.80866 4.74529 7.59777L4.82456 8.22596L5.62495 8.22423C6.61909 8.22212 6.9065 7.96161 6.90221 7.06633C6.8935 5.25027 4.93438 4.05421 2.80271 4.56348ZM12.2064 4.68228C11.3199 4.99074 10.4327 5.89778 10.1068 6.82886C9.83313 7.61078 9.79135 9.68266 10.0333 10.476C10.2697 11.251 10.9566 12.1454 11.6313 12.5565C12.1592 12.8782 12.3753 12.9292 13.3998 12.9731C14.3624 13.0145 14.6655 12.9804 15.1287 12.7794C15.9735 12.4126 16.5461 11.8495 16.9525 10.9856C17.292 10.2644 17.3185 10.1003 17.3185 8.72148C17.3185 7.38173 17.2863 7.16754 16.9924 6.55285C16.3565 5.22252 15.337 4.56571 13.7842 4.48606C13.1358 4.45273 12.7158 4.50501 12.2064 4.68228ZM43.5412 4.68055C42.5304 5.02319 41.8984 5.63169 41.4671 6.67748C41.2344 7.24187 41.1853 7.60545 41.1805 8.79593C41.1749 10.199 41.1853 10.2531 41.6166 11.0821C42.3349 12.4629 43.2465 12.9939 44.8984 12.9939C46.5494 12.9939 47.462 12.4627 48.1791 11.0843C48.6041 10.2675 48.6199 10.1881 48.6209 8.85997C48.6224 7.07835 48.3938 6.39144 47.5008 5.4927C47.0076 4.99644 46.6927 4.79588 46.1692 4.64512C45.278 4.38844 44.3666 4.4007 43.5412 4.68055ZM61.1774 4.62988C59.4287 5.18362 58.4022 7.26751 58.7411 9.57612C58.9806 11.2079 59.8226 12.3993 61.0191 12.7993C61.9218 13.1012 63.3762 13.057 64.1484 12.7041C65.4783 12.0962 66.1167 10.9721 66.2037 9.08432C66.2992 7.01591 65.6925 5.63615 64.369 4.91096C63.5541 4.4645 62.1031 4.33678 61.1774 4.62988ZM20.9158 8.72148V12.8714H22.1126H23.3093L23.3433 10.0664L23.3772 7.26144L23.6957 7.02818C24.1401 6.70262 24.8306 6.61504 25.1443 6.84422C25.3789 7.01554 25.4013 7.21201 25.4599 9.60932C25.5264 12.3275 25.5938 12.6541 26.1225 12.8198C26.5962 12.9682 27.4233 12.9062 27.8483 12.6906C28.176 12.5243 28.2333 12.437 28.1606 12.2146C27.914 11.4599 27.864 10.8952 27.8612 8.83C27.8579 6.42204 27.7423 5.79694 27.1912 5.20951C26.3988 4.36466 24.7852 4.37952 23.6329 5.24209L23.2401 5.53605L23.0298 5.17656C22.7741 4.73914 22.3609 4.57153 21.5388 4.57153H20.9158V8.72148ZM31.1715 4.71015C30.9459 4.77407 30.7613 4.85745 30.7613 4.89548C30.7613 5.12391 32.815 11.8879 32.9811 12.2064C33.267 12.7551 33.6296 12.8714 35.0536 12.8714H36.3044L36.5785 11.9733C38.2147 6.60971 38.6738 4.87813 38.4879 4.7716C38.2608 4.64165 36.6266 4.59656 36.5037 4.71697C36.4161 4.80269 36.0153 6.32975 35.2988 9.30594C35.0738 10.2407 34.8478 10.98 34.7966 10.9489C34.7453 10.9179 34.663 10.6282 34.6137 10.3053C34.4698 9.36367 33.4302 5.34008 33.2628 5.07708C32.957 4.59631 32.1023 4.44641 31.1715 4.71015ZM14.3644 6.51024C14.6872 6.78451 14.8571 7.55342 14.8563 8.73585C14.8556 10.0742 14.7002 10.6737 14.2678 11.0077C13.5374 11.5713 12.7094 11.1711 12.4553 10.1315C12.2671 9.36168 12.3534 7.39003 12.5978 6.87655C12.8965 6.24873 13.8289 6.05536 14.3644 6.51024ZM45.2621 6.31922C45.8445 6.51854 46.0704 7.03945 46.1368 8.33572C46.2356 10.2655 45.8142 11.261 44.8984 11.261C43.9828 11.261 43.5631 10.2689 43.6576 8.32779C43.7183 7.08318 43.9932 6.43703 44.524 6.29184C44.6953 6.24501 44.841 6.20116 44.848 6.19435C44.855 6.18753 45.0413 6.24377 45.2621 6.31922ZM63.2317 6.52684C63.5655 6.81151 63.7043 7.48145 63.705 8.81191C63.7059 10.1943 63.4897 10.9008 62.9988 11.1203C62.3424 11.4137 61.8176 11.2378 61.4673 10.6069C61.1422 10.0212 61.1483 7.54958 61.4768 6.90095C61.826 6.21095 62.6542 6.03442 63.2317 6.52684Z"/>
+                                </svg>
+                            {{/unless}}
+                        </span>
+                    </a>
+                </div>
+            {{/if}}
+        </div>
+
+    </div>
+</callwidget>

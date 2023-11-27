@@ -1,0 +1,91 @@
+<callwidget class="widgetModal" aria-hidden="true">
+    <div class="widgetModal-header">
+        <div class="widgetModal-headerTitle">{{title}}</div>
+        <button class="widgetModal-close js-closeModal" type="button" title="{{closeWindow}}">&times;</button>
+    </div>
+
+    <div class="widgetModal-inner" data-title="{{title}}">
+        <div class="widgetModal-container">
+          <div class="widgetModal-aside">
+              <div class="widgetModal-user">
+                  <img src="{{avatarUrl}}" class="widgetModal-userAvatar" alt="avatar"/>
+              </div>
+          </div>
+          <div id="lc_chat_container">
+            <div class="widgetModal-text">Hello! I am {{userName}}, {{userPosition}} from LeadBack Connect</div>
+            <div class="widgetModal-text">Do you have any questions about our service? Just enter your number and I will call you back in 1 minute</div>
+            <div class="widgetModal-options">
+              <div class="widgetModal-optionsTitle" id="widgetModal-optionsTitle">
+                  <span>Set time and choose department</span> (no required)
+              </div>
+
+              <div class="widgetModal-optionsContent" id="widgetModal-optionsContent" aria-hidden="true">
+                  {{# if departments }}
+                      <div class="widgetModal-form -columns">
+                          {{# if chooseDepartment}}
+                              <label class="widgetModal-label widgetModal-labelPlaceholder">{{chooseDepartment}}</label>
+                          {{/if}}
+                          <div class="widgetModal-formGroup">
+                              {{#each departments}}
+                                  <label class="widgetModal-formRadio">
+                                      <input type="radio" name="leadcm_departments" value="{{id}}"
+                                            {{#ifEquals id ../defaultDepartmentId}}checked{{/ifEquals}}>
+                                      <span>{{name}}</span>
+                                  </label>
+                              {{/each}}
+                          </div>
+                      </div>
+                  {{/if}}
+
+                  <div class="widgetModal-chooseTime">
+                      <div id="lc_future_calls">
+                        <div class="widgetModal-chooseTime-label widgetModal-labelPlaceholder">{{chooseTimeYouWillBeCalled}}</div>
+                        <div class="widgetModal-chooseTime-form">
+                          <div class="widgetModal-chooseTime-item -date">
+                            <div class="widgetModal-select">
+                              <select name="lc_fc_select_day"></select>
+                              <div class="widgetModal-selectDecor"></div>
+                            </div>
+                          </div>
+                          <div class="widgetModal-chooseTime-item -time">
+                            <div class="widgetModal-select">
+                              <select name="lc_fc_select_hour"></select>
+                              <div class="widgetModal-selectDecor"></div>
+                            </div>
+                            <span>:</span>
+                            <div class="widgetModal-select">
+                              <select name="lc_fc_select_minute"></select>
+                              <div class="widgetModal-selectDecor"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="widgetModal-main">
+            <div id="spinner" class="widgetModal-spinner" style="display:none; opacity: 0; z-index: -1;">
+              <img src="{{staticUrl}}/images/tenor.gif" alt="tenor">
+            </div>
+            <div class="widgetModal-form">
+                <label class="widgetModal-label">
+                    <span class="widgetModal-labelPlaceholder">{{enterYourPhone}}</span>
+                    <!--                    <input class="widgetModal-field lb_input" id="widgetModal-field" type="tel" placeholder="Ex. +46 8 1234567"-->
+                    <!--                           autofocus required>-->
+                </label>
+                <!--                <button class="widgetModal-formButton" type="submit" id="lc_submit_button">-->
+                <!--                  <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">-->
+                <!--                    <path fill="currentColor" d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9 190.9-172.5c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 16.2 252.2c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z"></path>-->
+                <!--                  </svg>-->
+                <!--                </button>-->
+
+            </div>
+            <a class="widgetModal-poweredBy" target="_blank" rel="noopener" href="https://www.leadconnect.se/">
+                Powered by Lead Connect</a>
+        </div>
+    </div>
+</callwidget>

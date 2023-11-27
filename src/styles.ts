@@ -1,0 +1,1 @@
+require('./styles/intlTelInput.css');

@@ -1,0 +1,129 @@
+<callbutton class="widgetButton" role="button" aria-label="callback button">
+    {{!--
+    Положение задается инлайново и состоит из пар:
+    [top, left]
+    [top, right]
+    [bottom, left]
+    [bottom, right]
+
+    По умолчанию отступ равен 50px.
+    Можно задавать свой размер, но для этого нужно:
+    - выбрать расположение
+    - согласно выбраной позиции задать отступ
+
+    Цвет фона кнопки должен указываться для
+    - для svg: id="fill-background" - style="fill: green;"
+    - для id="border-animation" - style="border-color: green;"
+    --}}
+
+    <div class="widgetButton-container">
+        <div id="lc_widgetButton"
+             class="{{#ifEquals buttonTemplate "leadcm"}}lc_button-animation widgetButton{{/ifEquals}}
+                 {{#ifEquals buttonTemplate "leadback"}}
+                    lc_button-animation lc_button-animation__float-button1 lc_button_callBtn
+                {{/ifEquals}}
+                 {{#ifEquals buttonTemplate "custom"}}
+                    lc_button-animation lc_button-animation__float-button1 lc_button_callBtn
+                {{/ifEquals}}">
+            {{#ifEquals buttonTemplate "leadcm"}}
+                <svg class="widgetButton-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <g>
+                        <path fill="currentColor"
+                              d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"/>
+                    </g>
+                </svg>
+            {{/ifEquals}}
+            {{#ifEquals buttonTemplate "leadback"}}
+                <object type="image/svg+xml" data="{{ staticUrl }}/images/button{{ buttonIcon }}.svg"><img
+                        src="{{ staticUrl }}/images/button{{ buttonIcon }}.svg" width="{{ buttonSize }}"
+                        height="{{buttonSize}}" alt=""/></object>
+            {{/ifEquals}}
+            {{#ifEquals buttonTemplate "custom"}}
+                <img src="{{buttonCustomImage}}" width="{{ buttonSize }}" height="{{buttonSize}}" alt=""/>
+            {{/ifEquals}}
+        </div>
+        <div class="lc_button-animation-border"></div>
+
+        <div class="widgetAvatar" style="background-image: url('https://randomuser.me/api/portraits/men/88.jpg')"></div>
+
+        <div class="widgetMessage">We are happy to help</div>
+        <div class="widgetNotification">1</div>
+
+        {{#ifIn2 tooltipType "BORDERED" "SOLID"}}
+            <div id="lc_widgetTooltip">
+                {{# ifEquals tooltipType "SOLID"}}
+                    <span class="lc_button_tooltip--container lc_button_tooltip--{{ tooltipPosition }}">
+                    <span id="lc_button_tooltip" class="lc_button_tooltip">
+                        <span id="lc_widgetTooltip-text" class="lc_button_tooltip--text">{{{ tipText }}}</span>
+                        <span id="lc_widgetTooltip-close" class="lc_widgetTooltip-close">x</span>
+                    </span>
+                </span>
+                {{/ifEquals}}
+
+                {{# ifEquals tooltipType "BORDERED"}}
+                    <div class="lc_button_tooltip--container lc_button_tooltip--{{ tooltipPosition }}">
+                        <div id="lc_button_tooltip" class="lc_button_tooltip {{#if showPhoneField}}-has-form{{/if}}">
+                            <div class="lc_button_tooltip-inner">
+                                {{#if avatarUrl}}{{#if showAvatarInTooltip}}
+                                    <div class="lc_button_tooltip__avatar" style="background-image: url({{avatarUrl}})">
+                                    </div>
+                                {{/if}}{{/if}}
+                                <div id="lc_widgetTooltip-text" class="lc_button_tooltip--text">
+                                    <div class="lc_button_tooltip__userName">{{userName}}</div>
+                                    {{{ tipText }}}
+                                </div>
+                                <div id="lc_widgetTooltip-close" class="lc_widgetTooltip-close">&times;</div>
+                            </div>
+                            {{#if showPhoneField}}
+                                <div class="widgetModal-form -simple-form {{#if avatarUrl}}{{#if
+                                        showAvatarInTooltip}}-has-avatar{{/if}}{{/if}}" id="lc_phone_input_form">
+                                    <div class="widgetModal-formRow" id="lc_tooltip_phone_field">
+                                        <div class="widgetModal-formCol">
+                                            <input tabindex="-1" class="widgetModal-field"
+                                                   id="widgetModal-field_tooltip"
+                                                   type="tel"
+                                                   placeholder="{{phoneNumberExample}}" required>
+                                        </div>
+                                        <div class="widgetModal-formCol -auto">
+                                            <button class="widgetModal-formButton" id="lc_submit_button_tooltip"
+                                                    type="submit">{{callMe}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                {{/ifEquals}}
+            </div>
+        {{/ifIn2}}
+
+        {{#ifEquals tooltipType "TIMER"}}
+            {{> leadcm/tooltype/template/timer }}
+        {{/ifEquals}}
+    </div>
+
+    {{#ifEquals tooltipType "BORDERED_ANIMATED"}}
+        <div id="lc_widgetTooltip" class="lc_widgetTooltip -{{ tooltipPosition }} -bordered -has-animation">
+            <div class="lc_widgetTooltip-inner {{#if avatarUrl}}-has-avatar{{/if}}">
+                {{#if avatarUrl}}
+                    {{#if showAvatarInTooltip}}
+                        <div class="lc_widgetTooltip-avatar" style="background-image: url({{avatarUrl}})"></div>
+                    {{/if}}
+                {{/if}}
+                <div class="lc_widgetTooltip-userName">{{ userName }}</div>
+                <div id="lc_widgetTooltip-text" class="lc_widgetTooltip-text">
+                    {{{ strToArray tipText }}}
+                </div>
+            </div>
+        </div>
+    {{/ifEquals}}
+
+    {{#ifEquals tooltipType "FLYING"}}
+        <div id="lc_widgetTooltip" class="lc_widgetTooltip -flying -{{ tooltipPosition }}" aria-hidden="false">
+            <div id="lc_widgetTooltip-close" class="lc_widgetTooltip-close">&times;</div>
+            <div class="lc_widgetTooltip-userName">{{ userName }}</div>
+            <div id="lc_widgetTooltip-text" class="lc_widgetTooltip-text">{{{ tipText }}}</div>
+        </div>
+    {{/ifEquals}}
+
+</callbutton>

@@ -1,0 +1,1230 @@
+<style>
+        {{# ifEquals tooltipType "SOLID"}}
+        /* tooltip */
+        .lc_button_tooltip--container {
+            font-family: {{{baseFontFamily}}};
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            bottom: 0 !important;
+            display: table !important;
+            position: absolute !important;
+            z-index: 501 !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left {
+            right: auto !important;
+            left: -206px !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right {
+            right: -310px !important;
+            left: auto !important;
+        }
+
+        .lc_button_tooltip {
+            font-size: 13px !important;
+            line-height: normal !important;
+            width: 190px !important;
+            height: auto !important;
+            min-height: 54px !important;
+            padding: 10px !important;
+            text-align: left !important;
+            vertical-align: middle !important;
+            opacity: 0 !important;
+            border-radius: 5px !important;
+            background: hsla({{tooltipBg}}, 0.8) !important;
+            box-shadow: 0 1px 3px hsla({{tooltipBg}}, 0.2) !important;
+            cursor: pointer !important;
+            outline: 0 !important;
+            box-sizing: border-box !important;
+            font-weight: 100;
+            -webkit-font-smoothing: subpixel-antialiased;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: table !important;
+            -webkit-animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+            animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--hide {
+            opacity: 0 !important;
+            display: none !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--hide.lc_button_tooltip--hover {
+            opacity: .95 !important;
+            display: table !important;
+            transition: all 0.5s ease !important;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--hide.lc_button_tooltip--hover .lc_widgetTooltip-close {
+            display: none !important;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: table !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        .lc_button_tooltip--text {
+            font-size: 13px !important;
+            font-weight: 100;
+            -webkit-font-smoothing: subpixel-antialiased;
+            line-height: 1.3em !important;
+            color: {{tooltipColor}} !important;
+            display: table-cell !important;
+            vertical-align: middle !important;
+            word-break: break-word;
+            text-overflow: ellipsis;
+        }
+
+        .lc_widgetTooltip-close {
+            transition: all 1s !important;
+            color: #000 !important;
+            font-size: 15px !important;
+            font-weight: 300 !important;
+            line-height: 40px !important;
+            position: absolute !important;
+            opacity: .6 !important;
+            top: -30px !important;
+            right: -10px !important;
+        }
+
+        .lc_button_tooltip::before {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            bottom: auto !important;
+            border-top-color: transparent !important;
+            border-bottom-color: transparent !important;
+            margin: 0 !important;
+            border-width: 8px !important;
+            border-style: solid !important;
+            position: absolute !important;
+            z-index: 500 !important;
+            content: '' !important;
+            background: 0 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before {
+            left: auto !important;
+            right: -16px !important;
+            border-right-color: transparent !important;
+            border-left-color: hsla({{tooltipBg}}, 0.8) !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before {
+            left: -16px !important;
+            right: auto !important;
+            border-left-color: transparent !important;
+            border-right-color: hsla({{tooltipBg}}, 0.8) !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show {
+            opacity: 1 !important;
+            display: table !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show-animate {
+            -webkit-animation: lc-tooltip-animation 1000ms linear both;
+            animation: lc-tooltip-animation 1000ms linear both;
+        }
+        {{/ifEquals}}
+
+        {{# ifEquals tooltipType "BORDERED"}}
+        /* tooltip */
+        .lc_button_tooltip--container {
+            font-family: {{{baseFontFamily}}};
+            bottom: 0 !important;
+            display: table !important;
+
+            position: absolute !important;
+
+            z-index: 501 !important;
+
+            width: {{tooltipWidth}};
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left {
+            right: {{buttonSize}};
+            left: auto !important;
+            margin-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .lc_button_tooltip--container.lc_button_tooltip--left {
+                right: 40px;
+                width: 75vw;
+            }
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right {
+            right: -310px;
+            left: auto !important;
+        }
+
+        .lc_button_tooltip {
+            font-size: 13px !important;
+            line-height: normal !important;
+            height: auto !important;
+            padding: 12px 20px;
+            opacity: 0 !important;
+            border-radius: {{tooltipBorderRadius}} !important;
+        box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15), 0 1px 2px 0 rgba(21, 28, 39, 0) {{# if
+                tooltipBorderColor}}, 0 0 0 4px {{tooltipBorderColor}} {{/if}};
+            background: {{ defaultTooltipBg }} !important;
+            color: {{ defaultTooltipColor }} !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: flex !important;
+            -webkit-animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+            animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--hide {
+            opacity: 0 !important;
+            display: none !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--hide.lc_button_tooltip--hover {
+            opacity: .95 !important;
+            display: table !important;
+            transition: all 0.5s ease !important;
+        }
+
+        #lc_button-call:hover .lc_widgetTooltip-close {
+            display: none !important;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: table !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        .lc_button_tooltip--text {
+            font-size: 13px !important;
+            font-weight: 400;
+            line-height: 1.4em !important;
+            display: block;
+        }
+
+        .lc_button_tooltip__avatar {
+            text-align: center;
+            flex: 0 0 54px;
+            width: 54px;
+            height: 54px;
+            margin-right: 14px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            margin-left: -10px;
+        }
+
+        .lc_button_tooltip__userName {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .lc_widgetTooltip-close {
+            transition: all 1s !important;
+            font-size: 15px !important;
+            font-weight: 300 !important;
+            position: absolute !important;
+            top: 0;
+            right: 0;
+
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            color: {{tooltipCloseColor}};
+            text-align: center;
+            line-height: 1;
+        }
+
+        .lc_button_tooltip::before,
+        .lc_button_tooltip::after {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            bottom: auto !important;
+            border-top-color: transparent !important;
+            border-bottom-color: transparent !important;
+            margin: 0 !important;
+            border-style: solid !important;
+            position: absolute !important;
+            z-index: 500 !important;
+            content: '' !important;
+            background: 0 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .lc_button_tooltip::before {
+            border-width: 8px !important;
+        }
+
+        .lc_button_tooltip::after {
+            border-width: 12px !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before,
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+            left: auto !important;
+            border-right-color: transparent !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before {
+            right: -16px !important;
+            border-left-color: {{tooltipBorderColor}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+            right: -16px !important;
+            border-left-color: {{defaultTooltipBg}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before,
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+            right: auto !important;
+            border-left-color: transparent !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before {
+            left: -16px !important;
+            border-right-color: {{tooltipBorderColor}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+            left: -16px !important;
+            border-right-color: {{defaultTooltipBg}}  !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show {
+            opacity: 1 !important;
+            display: flex !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show-animate {
+            -webkit-animation: lc-tooltip-animation 1000ms linear both;
+            animation: lc-tooltip-animation 1000ms linear both;
+        }
+        {{/ifEquals}}
+
+
+
+
+    .lc_button-animation {
+        overflow: hidden;
+        width: {{ buttonSize }};
+        height: {{ buttonSize }};
+        {{# ifEquals buttonTemplate "leadback"}}
+            background-color: {{ buttonPulseColor }}!important;
+        {{/ifEquals}}
+        border-radius: {{ buttonBorderRadius }}!important;
+        {{# ifEquals buttonBorderAnimation "pulse" }}
+            animation: pulse 2s infinite;
+        {{/ifEquals}}
+    }
+
+
+    @-webkit-keyframes pulse {
+        0% {
+            -webkit-box-shadow: 0 0 0 0 {{pulseRGBStart}};
+        }
+        70% {
+            -webkit-box-shadow: 0 0 0 30px {{pulseRGBEnd}};
+        }
+        100% {
+            -webkit-box-shadow: 0 0 0 0 {{pulseRGBEnd}};
+        }
+    }
+
+
+    @keyframes pulse {
+        0% {
+            -moz-box-shadow: 0 0 0 0 {{pulseRGBStart}};
+            box-shadow: 0 0 0 0 {{pulseRGBStart}};
+        }
+        70% {
+            -moz-box-shadow: 0 0 0 30px {{pulseRGBEnd}};
+            box-shadow: 0 0 0 30px {{pulseRGBEnd}};
+        }
+        100% {
+            -moz-box-shadow: 0 0 0 0 {{pulseRGBEnd}};
+            box-shadow: 0 0 0 0 {{pulseRGBEnd}};
+        }
+    }
+
+    .lc_button-animation object {
+        width: 100%;
+    }
+
+    #fill-background {
+        fill: {{ buttonPulseColor }}!important;
+    }
+
+    .lc_button-animation-border {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
+        opacity: .9;
+        {{# ifEquals buttonBorderAnimation "wave" }}
+            animation: wave-stroke 2s infinite cubic-bezier(.42, 0, .85, .75);
+            border: 2px solid {{ buttonPulseColor }};
+        {{/ifEquals}}
+    }
+
+    @-webkit-keyframes wave-stroke {
+        100% {
+            width: 200%;
+            height: 200%;
+            border-color: transparent;
+            opacity: 0;
+        }
+    }
+
+    @keyframes wave-stroke {
+        100% {
+            width: 200%;
+            height: 200%;
+            border-color: transparent;
+            opacity: 0;
+        }
+    }
+
+    .widgetButton {
+        position: fixed;
+        {{# ifEquals mobileButtonPosition "right" }}
+            right: 10px;
+        {{/ifEquals}}
+        {{# ifEquals mobileButtonPosition "left" }}
+            left: 10px;
+        {{/ifEquals}}
+
+        bottom: 10px;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        width: 45px;
+        height: 45px;
+        line-height: 16px;
+        font-family: {{{baseFontFamily}}};
+        border-radius: {{buttonBorderRadius}};
+        outline: none;
+        text-decoration: none;
+        text-shadow: none;
+        cursor: pointer;
+        color: {{ buttonColor }};
+        {{# ifNotEquals buttonTemplate "custom"}}
+            background-color: {{ buttonBgColor }};
+            box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15), 0 1px 2px 0 rgba(21, 28, 39, 0);
+        {{/ifNotEquals}}
+        transition: color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
+        transform 0.2s cubic-bezier(0.35, 0.78, 1, 1),
+        -webkit-transform 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+        {{# if buttonColorShiftAnimation}}
+            -webkit-animation: widgetButtonAnimation 60s ease infinite;
+            animation: widgetButtonAnimation 60s ease infinite;
+        {{/if}}
+    }
+
+    .widgetButton:hover {
+        {{# ifNotEquals buttonTemplate "custom"}}
+            color: {{ buttonBgColor }};
+            background-color: {{ buttonColor }};
+        {{/ifNotEquals}}
+    }
+
+    .widgetButton:active {
+        box-shadow: 0 0 0 1px rgba(128, 142, 155, 0.3);
+    }
+
+    .widgetButton:focus {
+        box-shadow: 0 0 0 4px rgba(128, 142, 155, 0.3);
+    }
+
+    .widgetButton-icon {
+        width: 60%;
+        height: 60%;
+        transform: rotate(90deg);
+    }
+
+    .lc_button_callBtn {
+        transition: -webkit-transform 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+        transition: transform 0.2s cubic-bezier(0.35, 0.78, 1, 1), -webkit-transform 0.2s cubic-bezier(0.35, 0.78, 1, 1);
+    }
+
+    .lc_button_callBtn.big {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+
+    @-webkit-keyframes widgetButtonAnimation {
+        0% {
+            -webkit-filter: hue-rotate(0deg);
+            filter: hue-rotate(0deg);
+        }
+        100% {
+            -webkit-filter: hue-rotate(360deg);
+            filter: hue-rotate(360deg);
+        }
+    }
+
+    @keyframes widgetButtonAnimation {
+        0% {
+            -webkit-filter: hue-rotate(0deg);
+            filter: hue-rotate(0deg);
+        }
+        100% {
+            -webkit-filter: hue-rotate(360deg);
+            filter: hue-rotate(360deg);
+        }
+    }
+
+    /* Generated with Bounce.js. Edit at https://goo.gl/7OdlWP */
+    @-webkit-keyframes lc-tooltip-animation {
+        0% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -500, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -500, 0, 0, 1);
+        }
+        1.78% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.621, 1, 0, 0, 0, 0, 1, 0, -282.728, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.621, 1, 0, 0, 0, 0, 1, 0, -282.728, 0, 0, 1);
+        }
+        3.56% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.829, 1, 0, 0, 0, 0, 1, 0, -149.309, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.829, 1, 0, 0, 0, 0, 1, 0, -149.309, 0, 0, 1);
+        }
+        5.34% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.695, 1, 0, 0, 0, 0, 1, 0, -72.484, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.695, 1, 0, 0, 0, 0, 1, 0, -72.484, 0, 0, 1);
+        }
+        7.06% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.477, 1, 0, 0, 0, 0, 1, 0, -31.997, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.477, 1, 0, 0, 0, 0, 1, 0, -31.997, 0, 0, 1);
+        }
+        7.12% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.47, 1, 0, 0, 0, 0, 1, 0, -31.079, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.47, 1, 0, 0, 0, 0, 1, 0, -31.079, 0, 0, 1);
+        }
+        10.51% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.146, 1, 0, 0, 0, 0, 1, 0, -1.766, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.146, 1, 0, 0, 0, 0, 1, 0, -1.766, 0, 0, 1);
+        }
+        10.68% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.135, 1, 0, 0, 0, 0, 1, 0, -1.214, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.135, 1, 0, 0, 0, 0, 1, 0, -1.214, 0, 0, 1);
+        }
+        14.01% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.003, 1, 0, 0, 0, 0, 1, 0, 2.88, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.003, 1, 0, 0, 0, 0, 1, 0, 2.88, 0, 0, 1);
+        }
+        14.24% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.007, 1, 0, 0, 0, 0, 1, 0, 2.886, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.007, 1, 0, 0, 0, 0, 1, 0, 2.886, 0, 0, 1);
+        }
+        17.46% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.033, 1, 0, 0, 0, 0, 1, 0, 1.99, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.033, 1, 0, 0, 0, 0, 1, 0, 1.99, 0, 0, 1);
+        }
+        31.36% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.002, 1, 0, 0, 0, 0, 1, 0, 0.01, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.002, 1, 0, 0, 0, 0, 1, 0, 0.01, 0, 0, 1);
+        }
+        36.48% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.001, 1, 0, 0, 0, 0, 1, 0, -0.003, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.001, 1, 0, 0, 0, 0, 1, 0, -0.003, 0, 0, 1);
+        }
+        44.34% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+        }
+        44.44% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+        }
+        45.27% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -7.992, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -7.992, 0, 1);
+        }
+        46.45% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -15.312, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -15.312, 0, 1);
+        }
+        48.45% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -19.275, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -19.275, 0, 1);
+        }
+        50.95% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -15.606, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -15.606, 0, 1);
+        }
+        53.4% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -9.111, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -9.111, 0, 1);
+        }
+        55.56% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -4.058, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -4.058, 0, 1);
+        }
+        55.9% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -3.395, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -3.395, 0, 1);
+        }
+        58.35% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.013, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.013, 0, 1);
+        }
+        62.35% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -1.622, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -1.622, 0, 1);
+        }
+        72.25% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.002, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.002, 0, 1);
+        }
+        76.25% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.137, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.137, 0, 1);
+        }
+        86.15% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        }
+        90.16% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.011, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.011, 0, 1);
+        }
+        100% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        }
+    }
+
+    @keyframes lc-tooltip-animation {
+        0% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -500, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -500, 0, 0, 1);
+        }
+        1.78% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.621, 1, 0, 0, 0, 0, 1, 0, -282.728, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.621, 1, 0, 0, 0, 0, 1, 0, -282.728, 0, 0, 1);
+        }
+        3.56% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.829, 1, 0, 0, 0, 0, 1, 0, -149.309, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.829, 1, 0, 0, 0, 0, 1, 0, -149.309, 0, 0, 1);
+        }
+        5.34% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.695, 1, 0, 0, 0, 0, 1, 0, -72.484, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.695, 1, 0, 0, 0, 0, 1, 0, -72.484, 0, 0, 1);
+        }
+        7.06% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.477, 1, 0, 0, 0, 0, 1, 0, -31.997, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.477, 1, 0, 0, 0, 0, 1, 0, -31.997, 0, 0, 1);
+        }
+        7.12% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.47, 1, 0, 0, 0, 0, 1, 0, -31.079, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.47, 1, 0, 0, 0, 0, 1, 0, -31.079, 0, 0, 1);
+        }
+        10.51% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.146, 1, 0, 0, 0, 0, 1, 0, -1.766, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.146, 1, 0, 0, 0, 0, 1, 0, -1.766, 0, 0, 1);
+        }
+        10.68% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.135, 1, 0, 0, 0, 0, 1, 0, -1.214, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.135, 1, 0, 0, 0, 0, 1, 0, -1.214, 0, 0, 1);
+        }
+        14.01% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.003, 1, 0, 0, 0, 0, 1, 0, 2.88, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.003, 1, 0, 0, 0, 0, 1, 0, 2.88, 0, 0, 1);
+        }
+        14.24% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.007, 1, 0, 0, 0, 0, 1, 0, 2.886, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.007, 1, 0, 0, 0, 0, 1, 0, 2.886, 0, 0, 1);
+        }
+        17.46% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, -0.033, 1, 0, 0, 0, 0, 1, 0, 1.99, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, -0.033, 1, 0, 0, 0, 0, 1, 0, 1.99, 0, 0, 1);
+        }
+        31.36% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.002, 1, 0, 0, 0, 0, 1, 0, 0.01, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.002, 1, 0, 0, 0, 0, 1, 0, 0.01, 0, 0, 1);
+        }
+        36.48% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0.001, 1, 0, 0, 0, 0, 1, 0, -0.003, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0.001, 1, 0, 0, 0, 0, 1, 0, -0.003, 0, 0, 1);
+        }
+        44.34% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+        }
+        44.44% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 0, 1);
+        }
+        45.27% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -7.992, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -7.992, 0, 1);
+        }
+        46.45% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -15.312, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -15.312, 0, 1);
+        }
+        48.45% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -19.275, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.001, -19.275, 0, 1);
+        }
+        50.95% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -15.606, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -15.606, 0, 1);
+        }
+        53.4% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -9.111, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -9.111, 0, 1);
+        }
+        55.56% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -4.058, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -4.058, 0, 1);
+        }
+        55.9% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -3.395, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -3.395, 0, 1);
+        }
+        58.35% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.013, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.013, 0, 1);
+        }
+        62.35% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -1.622, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -1.622, 0, 1);
+        }
+        72.25% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.002, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.002, 0, 1);
+        }
+        76.25% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.137, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.137, 0, 1);
+        }
+        86.15% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        }
+        90.16% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.011, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -0.011, 0, 1);
+        }
+        100% {
+            -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+            transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        }
+    }
+
+    .widgetButton-container {
+        display: flex;
+        height: {{buttonSize}};
+        border-radius: {{ buttonBorderRadius }};
+        box-shadow: 0 0 6px #00000047;
+    }
+
+    .lc_widgetTooltip.-has-animation,
+    .lc_widgetTooltip.-has-animation .lc_widgetTooltip-avatar,
+    .lc_widgetTooltip.-has-animation .lc_widgetTooltip-userName,
+    .lc_widgetTooltip.-has-animation .lc_widgetTooltip-text, lc_widgetTooltip-head {
+        opacity: 0;
+    }
+
+        {{# ifEquals tooltipType "BORDERED"}}
+        /* tooltip */
+        .lc_button_tooltip--container {
+            font-family: {{{baseFontFamily}}};
+            bottom: 0 !important;
+            display: table !important;
+            position: absolute !important;
+            z-index: 501 !important;
+            width: {{tooltipWidth}};
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left {
+            right: {{buttonSize}};
+            left: auto !important;
+            margin-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .lc_button_tooltip--container.lc_button_tooltip--left {
+                right: 40px;
+                width: 75vw;
+            }
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right {
+            right: -310px;
+            left: auto !important;
+        }
+
+        .lc_button_tooltip {
+            font-size: 13px !important;
+            line-height: normal !important;
+            height: auto !important;
+            padding: 12px 20px;
+            opacity: 0 !important;
+            border-radius: {{tooltipBorderRadius}} !important;
+            box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15), 0 1px 2px 0 rgba(21, 28, 39, 0) {{# if
+                tooltipBorderColor}}, 0 0 0 4px {{tooltipBorderColor}} {{/if}};
+            background: {{ defaultTooltipBg }} !important;
+            color: {{ defaultTooltipColor }} !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+        }
+
+        .lc_button_tooltip.-has-form {
+            flex-direction: column;
+        }
+
+        .lc_button_tooltip-inner {
+            display: flex;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: flex !important;
+            -webkit-animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+            animation: lb-tooltip-animation-alert 3800ms linear infinite both;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--hide {
+            opacity: 0 !important;
+            display: none !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--hide.lc_button_tooltip--hover {
+            opacity: .95 !important;
+            display: table !important;
+            transition: all 0.5s ease !important;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip--close {
+            display: none !important;
+        }
+
+        #lc_button-call:hover .lc_button_tooltip.lc_button_tooltip--alert {
+            opacity: 1 !important;
+            display: table !important;
+            -webkit-animation: none;
+            animation: none;
+        }
+
+        .lc_button_tooltip--text {
+            font-size: 13px !important;
+            font-weight: 400;
+            line-height: 1.4em !important;
+            display: block;
+        }
+
+        .lc_button_tooltip__avatar {
+            text-align: center;
+            flex: 0 0 54px;
+            width: 54px;
+            height: 54px;
+            margin-right: 14px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            margin-left: -10px;
+        }
+
+        .lc_button_tooltip__userName {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .lc_button_tooltip--close {
+            transition: all 1s !important;
+            font-size: 15px !important;
+            font-weight: 300 !important;
+            position: absolute !important;
+            top: 0;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            color: {{tooltipCloseColor}};
+            text-align: center;
+            line-height: 1;
+        }
+
+        .lc_button_tooltip::before,
+        .lc_button_tooltip::after {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            bottom: auto !important;
+            border-top-color: transparent !important;
+            border-bottom-color: transparent !important;
+            margin: 0 !important;
+            border-style: solid !important;
+            position: absolute !important;
+            z-index: 500 !important;
+            content: '' !important;
+            background: 0 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .lc_button_tooltip::before {
+            border-width: 8px !important;
+        }
+
+        .lc_button_tooltip::after {
+            border-width: 12px !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before,
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+            left: auto !important;
+            border-right-color: transparent !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before {
+            right: -16px !important;
+            border-left-color: {{tooltipBorderColor}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+            right: -16px !important;
+            border-left-color: {{defaultTooltipBg}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before,
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+            right: auto !important;
+            border-left-color: transparent !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::before {
+            left: -16px !important;
+            border-right-color: {{tooltipBorderColor}} !important;
+        }
+
+        .lc_button_tooltip--container.lc_button_tooltip--right .lc_button_tooltip::after {
+            left: -16px !important;
+            border-right-color: {{defaultTooltipBg}}  !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show {
+            opacity: 1 !important;
+            display: flex !important;
+        }
+
+        .lc_button_tooltip.lc_button_tooltip--show-animate {
+            -webkit-animation: lc-tooltip-animation 1000ms linear both;
+            animation: lc-tooltip-animation 1000ms linear both;
+        }
+        {{/ifEquals}}
+
+        {{# ifEquals tooltipType "BORDERED_ANIMATED"}}
+        .lc_widgetTooltip {
+            position: absolute;
+            min-height: {{buttonSize}};
+            line-height: normal;
+            border-radius: {{tooltipBorderRadius}};
+            font-size: 13px;
+        box-shadow: 0 20px 30px 0 rgba(21, 28, 39, .15),
+        0 1px 2px 0 rgba(21, 28, 39, 0)
+            {{# if tooltipBorderColor}}, 0 0 0 4px {{tooltipBorderColor}} {{/if}};
+            background-color: {{ defaultTooltipBg }};
+            color: {{ defaultTooltipColor }};
+            box-sizing: border-box;
+        }
+
+        .lc_widgetTooltip.-right {
+            left: 100%;
+            margin-left: 20px;
+        }
+
+        .lc_widgetTooltip.-left {
+            right: 100%;
+            margin-right: 20px;
+        }
+
+        .lc_widgetTooltip::before {
+            border-width: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            bottom: auto;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            margin: 0;
+            border-style: solid;
+            position: absolute;
+            z-index: 10;
+            content: '';
+            box-sizing: border-box;
+        }
+
+        .lc_widgetTooltip::after {
+            border-width: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            bottom: auto;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            margin: 0;
+            border-style: solid;
+            position: absolute;
+            z-index: 10;
+            content: '';
+            box-sizing: border-box;
+        }
+
+        .lc_widgetTooltip.-left::before {
+            right: -20px;
+            border-left-color: {{ tooltipBorderColor }};
+            border-right-color: transparent;
+        }
+
+        .lc_widgetTooltip.-left::after {
+            right: -19px;
+            border-left-color: {{ defaultTooltipBg }};
+            border-right-color: transparent;
+        }
+
+        .lc_widgetTooltip.-right::before {
+            left: -20px;
+            border-right-color: {{ tooltipBorderColor }};
+            border-left-color: transparent;
+        }
+
+        .lc_widgetTooltip.-right::after {
+            left: -19px;
+            border-right-color: {{ defaultTooltipBg }};
+            border-left-color: transparent;
+        }
+
+        .lc_widgetTooltip-inner {
+            padding: 12px 20px;
+            height: 84px;
+            overflow: hidden;
+        }
+
+        .lc_widgetTooltip-inner.-has-avatar {
+            padding-left: 84px;
+        }
+        {{/ifEquals}}
+
+        {{#ifEquals tooltipType "FLYING"}}
+        .lc_widgetTooltip {
+            position: absolute;
+            border-radius: {{tooltipBorderRadius}};
+            box-shadow: 0 8px 10px #00000047;
+            background-color: {{ defaultTooltipBg }};
+            color: {{ defaultTooltipColor }};
+            box-sizing: border-box;
+
+            width: 180px;
+            height: auto;
+            bottom: 0;
+            margin-bottom: 0;
+            padding: 16px 14px;
+            line-height: 1.6;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .lc_widgetTooltip.-left {
+            margin-left: 14px;
+            left: 100%;
+        }
+
+        .lc_widgetTooltip.-right {
+            margin-right: 14px;
+            right: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .lc_widgetTooltip.-left {
+                left: initial;
+                bottom: 100%;
+                margin-left: 30px;
+                margin-bottom: 20px;
+            }
+
+            .lc_widgetTooltip.-right {
+                right: initial;
+                bottom: 100%;
+                margin-right: 30px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .lc_widgetTooltip-close {
+            color: {{ defaultTooltipColor }};
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 40px;
+            position: absolute;
+            opacity: .6;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+        }
+        {{/ifEquals}}
+
+    .lc_widgetTooltip-avatar {
+        width: 65px;
+        height: 65px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 4;
+        border-radius: {{avatarBorderRadius}};
+        background-color: rgba(0, 0, 0, 0.2);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .lc_widgetTooltip-userName {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .widgetAvatar {
+        {{#ifNotEquals tooltipType "FLYING"}}
+            display: none;
+        {{/ifNotEquals}}
+        opacity: 0;
+        width: 65px;
+        height: 65px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 4;
+        border-radius: 12px;
+        background-color: #f2f2f2;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .widgetMessage {
+        {{#ifNotEquals tooltipType "FLYING"}}
+            display: none;
+        {{/ifNotEquals}}
+        position: absolute;
+        width: 140px;
+        background-color: white;
+        color: #333;
+        font-size: 12px;
+        font-family: inherit;
+        bottom: 100%;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        right: 0;
+        box-shadow: 0 3px 6px #00000047;
+        border-radius: 12px;
+        padding: 10px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .widgetNotification {
+        {{#ifNotEquals tooltipType "FLYING"}}
+            display: none;
+        {{/ifNotEquals}}
+        opacity: 0;
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background-color: #e12d68;
+        font-size: 12px;
+        font-family: inherit;
+        text-align: center;
+        z-index: 100;
+        color: #fff;
+        padding: 2px 4px;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 0 0 1px #fff;
+        box-sizing: border-box;
+    }
+
+    @media (min-width: 768px) {
+        .widgetButton {
+            top: {{ buttonPositionTop }};
+            right: {{ buttonPositionRight }};
+            bottom: {{ buttonPositionBottom }};
+            left: {{ buttonPositionLeft }};
+            width: {{buttonSize}};
+            height: {{buttonSize}};
+        }
+
+
+    }
+
+    .lc_callback_widget[aria-hidden="true"] {
+        opacity: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+        {{# ifEquals tooltipType "TIMER"}}
+            {{> leadcm/tooltype/style/timer }}
+        {{/ifEquals}}
+
+@media (max-width: 550px) {
+    {{#if mobileUseMobileStyles}}
+
+        {{#ifEquals mobileTooltipPosition 'right'}}
+                .lc_button_tooltip--container.lc_button_tooltip--left {
+                    right: 0px !important;
+                    left: {{buttonSize}} !important;
+                }
+
+                .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::before{
+                    left: -16px !important;
+                    right: 0px !important;
+                    border-left-color: transparent !important;
+                    border-right-color: {{tooltipBorderColor}} !important;
+                    width: fit-content;
+                }
+
+                .lc_button_tooltip--container.lc_button_tooltip--left .lc_button_tooltip::after {
+					width: fit-content;
+					left: -16px !important;
+					right: 0px !important;
+					border-left-color: transparent !important;
+					border-right-color: white !important;
+                }
+
+        {{/ifEquals}}
+
+    {{/if}}
+}
+</style>
