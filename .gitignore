@@ -76,7 +76,7 @@ typings/
 .fusebox/
 
 .idea/
-dist/
+#dist/
 temp/
 package-lock.json
 yarn.lock
